@@ -3,8 +3,7 @@
 - [Introduction](#introduction)
 - [Goal](#goal)
 - [Permissions](#permissions)
-
-    This is a note
+- [Test Deploy a VM](#test deploy a vm)
 
 ## Introduction
 Welcome to exercise 1 of the Ansible for Linux & Windows Hands-on Lab!
