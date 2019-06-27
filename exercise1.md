@@ -6,6 +6,7 @@
 - [Test Deploy a VM](#test-deploy-a-vm)
 - [Create Machine Credential](#Create-Machine-Credential)
 - [Create an Inventory](#Create-an-Inventory)
+- [Create Job Templates](#Create-Job-Templates)
 
 ## Introduction
 Welcome to exercise 1 of the Ansible for Linux & Windows Hands-on Lab!
@@ -165,29 +166,27 @@ As you know by now you need an inventory of machines you want your playbooks to 
 
 ## Create Job Templates
 
-Depending on how you want to deploy your version of the stack, you now add job templates for each node in your workflow.
-   * Log into Ansible Tower as webadmin (if you haven’t already)
-   * Go to “Templates” in the left main menu and click the  +  button and choose “Job Template”
-   * NAME: choose the name of the playbook and make it the same as the node in the above workflow, for example “linux_deploy_apache”
-   * DESCRIPTION: is optional and you can choose anything
-   * INVENTORY: The Inventory you just created
-   * PROJECT: Choose Windows or Linux, depending on the building block.
-   * PLAYBOOK: Choose the correct playbook from the list.
-   * CREDENTIAL: Choose the Machine Credential you just created.
-Important! Certain playbooks use vaulted files that contain resource credentials, as explained above. Those vaults are encrypted using ansible-vault. To be able to decrypt them a vault credential needs to be specified when used in a playbook. The *_website and the *_db playbooks need the “Database Access” vault credential and the linux_deploy_haproxy playbook needs the “Load Balancers” vault credential. You can specify multiple credentials for a playbook (makes sense, right?). To do this open the searchbox of the Credential field again and choose “Vault” in the dropdown. Now you see the Vault credentials you have access to and you can choose the one you need for the playbook at hand.
-   * Click SAVE.
+Depending on how you want to deploy _your_ version of the stack, you now add job templates for each node in your workflow.
+1. Log into Ansible Tower as _webadmin_ (if you haven’t already)
+2. Go to _Templates_ in the left main menu and click the green _+_ button and choose _Job Template_
+3. Fill out like this:
+..- _NAME_: choose the name of the playbook and make it the same as the node in the above workflow, for example “linux_deploy_apache”
+..- _DESCRIPTION_: is optional and you can choose anything
+..- _INVENTORY_: The Inventory you just created
+..- _PROJECT_: Choose _Windows_ or _Linux_, depending on the building block.
+..- _PLAYBOOK_: Choose the correct playbook from the dropdown list.
+..- _CREDENTIAL_: Choose the Machine Credential you just created.
+    **Important!** Certain playbooks use vaulted files that contain resource credentials, as explained above. Those vaults are encrypted using ansible-vault. To be able to decrypt them a vault credential needs to be specified when used in a playbook. The *_website and the *_db playbooks need the “Database Access” vault credential and the linux_deploy_haproxy playbook needs the “Load Balancers” vault credential. You can specify multiple credentials for a playbook (makes sense, right?). To do this open the searchbox of the Credential field again and choose “Vault” in the dropdown. Now you see the Vault credentials you have access to and you can choose the one you need for the playbook at hand.
+4. Click SAVE.
 
+Repeat these steps for each building block in your workflow. It might seem like a lot of work, but once you’ve done one or two, it becomes second nature and you can make them quite fast :-)
 
-Repeat this exercise for each building block in your workflow. If might seem like a lot of work, but once you’ve done one or two, it becomes second nature and you can make them quite fast :-)
+> **_Note:_**
+>
+>If multiple nodes in the above workflow execute the same job template, as is for example with windows_deply_website and/or linux_deploy_website, you only need to define the job template once. 
 
+## Create workflow template
 
-Note: If multiple nodes in the above workflow execute the same job template, as is for example with windows_deply_website and/or linux_deploy_website, you only need to denine the job template once. 
-________________
-
-
-
-
-   1. Create workflow template
 Now we finally have all the needed components to build a workflow. Phew! A workflow is a set of job templates (and thus playbooks) that are linked together in a certain specific way such that multiple job templates are executed in a predictable order. Each job template in a workflow is called a “node”.
 
 
