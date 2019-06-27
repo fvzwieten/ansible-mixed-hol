@@ -50,7 +50,7 @@ All these accounts have password: _r3dh4t1!_ (that includes the !)
 > A trusted certificate is not installed, so you need to accept an exception for this in your browser.
 This lab uses Azure. When creating resources in Azure there are restrictions on VM names, usernames and passwords. Read [here](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#are-there-any-computer-name-requirements) before you start if you do not know these restrictions!
 
-[^](#table-of-contents)
+[(top)](#table-of-contents)
 
 ## Goal
 Here is (again) an example of what kind of workflow you are tasked to build:
@@ -71,7 +71,7 @@ Remember, this is just an example!
 >2. The load balancer is always Linux based. This is because the Windows Network Load Balancer (WNLB) is not supported on Azure and haproxy is not available for Windows. Using the Azure load balancer would have been a solution, but defeats the scope of this lab.
 >3. You are free to deploy a stack with just one web server and then a load balancer is not needed and you can thus ignore the instructions on the load balancer part, but that would be less fun!
 
-
+[(top)](#table-of-contents)
 
 ## Permissions
 
@@ -90,10 +90,11 @@ If you need Linux playbooks to build your stack:
 
 If you (also) need Windows playbooks to build your stack, repeat the previous step where you replace _linux_ with _windows_.
 
-
 > **_Note:_**
 >
 >If you want to assign roles to teams instead of users, like you did just now (e.g. _Web Team_), you need to be a Ansible Tower _Global Admin_.
+
+[(top)](#table-of-contents)
 
 ## Test Deploy a VM
 
@@ -117,6 +118,8 @@ Nothing stops us from already deploying a VM in Azure. You can use that VM in th
 >* If the browser window is too small, the interface will automatically switch to mobile view. Left and Right become Up and Down.
 >* You have write access to the git repositories. Feel free to customize the playbooks to your own liking. Remember though that this server will be deleted after the workshop..
 
+[(top)](#table-of-contents)
+
 ## Create Machine Credential
 
 When you deploy machines, you needed to specify credentials to be able to log in to it. You also need credentials to be able to run Ansible playbooks _in_ the VM’s OS. Although the Windows admin and/or Linux admin could share their credentials to do that, that would mean you can log into their machines as well. Better to create your own machine credential then. Here we go:
@@ -137,32 +140,30 @@ When you deploy machines, you needed to specify credentials to be able to log in
 >* Try to look up the password you just entered. As you will notice you can’t anymore. You can only replace it. Nice and safely stored :-)
 >* If you want to check whether you typed the password correctly, you can do that only before you click SAVE.
 
+[(top)](#table-of-contents)
+
 ## Create an Inventory
 
 As you know by now you need an inventory of machines you want your playbooks to run on. In this exercise we are going to create a dynamic inventory. This is an inventory that will populate itself from an external source, in this case Azure. This means that as you create VM’s in Azure the inventory will be populated with the VM’s that you have created once you sync it. You need credentials for Azure to be able to do this, but these have been shared with you by the Tower Admin to use, remember?
 
-
-   * Log into Ansible Tower as “webadmin” (if you haven’t already)
-   * Go to “Inventories” in the left main menu, click the  +  button and choose “Inventory”.
-   * Give your inventory a NAME (ie MyInventory), optionally a DESCRIPTION, “ACME Corporation for ORGANIZATION and click SAVE
-   * Choose SOURCES in the inventory menu and click the  +  button.
-   * Give the source a NAME(suggestion: Azure) and optionally a DESCRIPTION. Choose “Microsoft Azure Resource Manager” as the SOURCE (note that the CREDENTIAL is auto populated to the Azure CREDENTIAL, because that is the only one with that type you have access to).
-   * Select “Overwrite” in the UPDATE OPTIONS (click the ? next to it to get an explanation on this option)
-   * Important: In SOURCE VARIABLES, just below the “---”, so on line 2, type in the following:
-   * resource_groups: ansible_workshop_{guid}
+1. Log into _Ansible Tower_ as _webadmin_ (if you haven’t already)
+2. Go to _Inventories_ in the left main menu, click the green _+_ button and choose _Inventory_.
+3. Give your inventory a _NAME_ (ie _MyInventory_), optionally a _DESCRIPTION_, _ACME Corporation_ for _ORGANIZATION_ and click _SAVE_
+4. Choose _SOURCES_ in the inventory menu and click the green _+_ button.
+5. Give the source a _NAME_(suggestion: _Azure_) and optionally a _DESCRIPTION_. Choose _Microsoft Azure Resource Manager_ as the _SOURCE_ (note that the _CREDENTIAL_ is auto populated to the _Azure CREDENTIAL_, because that is the only one with that type you have access to).
+6. Select _Overwrite_ in the _UPDATE OPTIONS_ (click the _?_ next to it to get an explanation on this option)
+7. **Important**: In _SOURCE VARIABLES_, just below the “---”, so on line 2, type in the following:
+>resource_groups: ansible_workshop_{guid}
 This little trick will filter the hosts in Azure to those that are in your Azure resource group.
-   * Click SAVE
-   * Click the SYNC ALL button. It will now start syncing your current VM’s in Azure into your inventory.
-   * When the synchronization is done (the cloud icon next to the source stops blinking and is green), click the HOSTS submenu item within the inventory. If all is well you see the VM you deployed in the previous step. If you see none or more than one, that is not good! Stop right here! Talk to the instructor!
+8. Click _SAVE_
+9. Click the _SYNC ALL_ button. It will now start syncing your current VM’s in Azure into your inventory.
+10. When the synchronization is done (the cloud icon next to the source stops blinking and is green), click the _HOSTS_ submenu item within the inventory. If all is well you see the VM you deployed in the previous step. If you see none or more than one, **that is not good! Stop right here! Talk to the instructor!**
    * When you select the host you see the DETAILS pane where you see vars that are generated from the Azure SOURCE and that you can use in your playbooks.
-   * In the GROUPS tab you also see that the host is automatically added to various groups that represent different types of Azure metadata. The resource_group is one, The OS is another, Also, the role you specified during the creation you now see come back here as well. We will use these groups to run the different playbooks against.
-________________
+   * In the _GROUPS_ tab you also see that the host is automatically added to various groups that represent different types of Azure metadata. The resource_group is one, The OS is another, Also, the role you specified during the creation you now see come back here as well. We will use these groups to run the different playbooks against.
 
+[(top)](#table-of-contents)
 
-
-
-   1. Create Job Templates
-
+## Create Job Templates
 
 Depending on how you want to deploy your version of the stack, you now add job templates for each node in your workflow.
    * Log into Ansible Tower as webadmin (if you haven’t already)
