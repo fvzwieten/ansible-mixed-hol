@@ -6,36 +6,41 @@
 
 ## Introduction
 Welcome to exercise 1 of the Ansible for Linux & Windows Hands-on Lab!
-The url of the Ansible Tower cluster where you work on is: https://tower-{guid}.rhpds.opentlc.com
+
+The url of the **Ansible Tower** cluster where you work on is: https://tower-{guid}.rhpds.opentlc.com
 Where {guid} is the 4 character code you received at the start of the LAB.
 
-You have the following accounts available on your Tower machine:
+You have the following accounts available on your Tower server:
 
-- **windowsadmin**
+- **windowsadmin:**
 This persona maintains all windows playbooks. He has admin rights on the Tower project for Windows playbooks. If you want to use his playbooks, you must ask him nicely.
 
-- **linuxadmin**
+- **linuxadmin:**
 This persona maintains all linux playbooks. He has admin rights on the Tower project for Linux playbooks. If you want to use his playbooks, you must ask him even more nicely.
 
-- **webadmin**
+- **webadmin:**
 This persona’s job is to build and maintain web stacks. He needs the playbooks from the other persona’s to do her or his job.
 
-- **admin**
+- **admin:**
 The tower administrator maintains the Azure playbooks. He is a nice guy by default. He already gave permission to use them, including the credentials you need to be able to use them. Neat!
 
-- **user**
+- **user:**
 This is the persona who is able to run but not maintain workflows.
 
 These accounts are all member of the Ansible Tower Organization _“ACME Corporation”_
 
-All these accounts have password: _r3dh4t1!_ (that includes the !)
 
-The url of the gitlab where your repositories live is: https://control-{guid}.rhpds.opentlc.com
-
+The url of the **gitlab** where your repositories live is: https://control-{guid}.rhpds.opentlc.com
 Where {guid} is the 4 character code you received at the start of the LAB.
 
-* Username: _git_
-* Password: _r3dh4t1!_
+You have the following accounts available on your Git server:
+
+- **git:**
+This account gives you write access to all repositories, so if you feel like customizing the playbook, be my guest ;-)
+
+
+All these accounts have password: _r3dh4t1!_ (that includes the !)
+
 
 
 > **_Note:_**
