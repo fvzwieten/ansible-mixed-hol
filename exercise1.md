@@ -317,22 +317,4 @@ https://www.youtube.com/watch?v=FEdXUv02Dbg
 All playbooks are permanently available on:
 https://github.com/fvzwieten
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Happy automating! (with Ansible Tower!)
-Page /
+## Happy automating! (with Ansible Tower!)
