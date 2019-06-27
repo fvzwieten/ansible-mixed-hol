@@ -3,8 +3,8 @@
 - [Introduction](#introduction)
 - [Goal](#goal)
 - [Permissions](#permissions)
-- [Test Deploy a VM](#test deploy a vm)
-- [Create Machine Credential](#Create Machine Credential)
+- [Test Deploy a VM](#test-deploy-a-vm)
+- [Create Machine Credential](#Create-Machine-Credential)
 
 ## Introduction
 Welcome to exercise 1 of the Ansible for Linux & Windows Hands-on Lab!
