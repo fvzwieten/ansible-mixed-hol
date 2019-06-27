@@ -7,6 +7,8 @@
 - [Create Machine Credential](#Create-Machine-Credential)
 - [Create an Inventory](#Create-an-Inventory)
 - [Create Job Templates](#Create-Job-Templates)
+- [Finalize workflow template](#Finalize-workflow-template)
+- [Execute the workflow](#Execute-the-workflow)
 
 ## Introduction
 Welcome to exercise 1 of the Ansible for Linux & Windows Hands-on Lab!
@@ -184,93 +186,90 @@ Repeat these steps for each building block in your workflow. It might seem like 
 
 > **_Note:_**
 >
->If multiple nodes in the above workflow execute the same job template, as is for example with windows_deply_website and/or linux_deploy_website, you only need to define the job template once. 
+>If multiple nodes in your workflow execute the same job template, as is for example with windows_deploy_website and/or linux_deploy_website, you only need to define the job template once. 
+
+[(top)](#table-of-contents)
 
 ## Create workflow template
 
-Now we finally have all the needed components to build a workflow. Phew! A workflow is a set of job templates (and thus playbooks) that are linked together in a certain specific way such that multiple job templates are executed in a predictable order. Each job template in a workflow is called a “node”.
+Now we finally have all the needed components to build a workflow. Phew! A _workflow_ is a set of _job templates_ (and thus _playbooks_) that are linked together in a certain specific way such that multiple job templates are executed in a predictable order. Each job template in a workflow is called a _node_. Nodes are connected using _paths_. A _path_ can be followed if the job template finshed either succesfully and/or not succesfully.
 
+1. Log into Ansible Tower as _webadmin_ (if you haven’t already).
+2. Go to _Templates_ in the left main menu and click the green + button and choose _Workflow Template_
+3. Fill out like this:
+    - NAME: name the workflow _Deploy Web Stack_
+    - DESCRIPTION: is optional and you can choose anything
+    - ORGANIZATION: Choose _ACME Corporation_ 
+    - INVENTORY: Choose the _Azure_ inventory you made previously
+4. Click _SAVE_
 
-   * Log into Ansible Tower as webadmin (if you haven’t already).
-   * Go to “Templates” in the left main menu and click the  +  button and choose “Workflow Template”
-   * NAME: name the workflow “Deploy Web Stack ”
-   * DESCRIPTION: is optional and you can choose anything
-   * ORGANIZATION: Choose “ACME Corporation” 
-   * INVENTORY: Choose the Azure inventory you made previously
-   * Click SAVE
 You are now brought to the Workflow Visualizer. Here you can graphically build out your workflow.
-   * Click on the START node. A dialog will open where you can choose one of your job templates to add to the workflow.
-   * Choose “azure_create_vm” by clicking on the text (it is greyed-out , but you can still select it. A known bug), scroll down and click PROMPT. You can now fill in all the fields needed for this node.
-   * For the first azure_create_vm node select the same field values you used to create the test VM in the previous step. It will then reuse that VM.
-   * Click SELECT. A node has been added to the workflow.
-   * You can now click the START node again to add a step that runs parallel to the previous created step. This way you can, for example in this workflow, create multiple VM’s in parallel.
-   * Now first create all Azure VM’s you need and specify the correct OS, role and credentials. (Suggested vm names: winweb{x}, linweb{x}, windb, lindb, linlb).
-   * When you hover over the just created node 3 small icons appear:
-   * A green icon you can click to add a node after this node
-   * A red icon to remove this node
-   * A blue icon to create a link from this node to another existing node. You create the link by clicking on the node to link to. You select if this path should be followed “Always”, “On Success” or “On Failure” and you click SAVE to establish the link.
-   * Important! After you have added the nodes that create the needed VM’s in Azure for your stack you want an inventory sync to happen because otherwise the playbooks that must operate on those VM’s have an empty inventory. To do this, add a node after the node(s) that create the VM(s) and, in the top of the dialog that appears, choose “INVENTORY SYNC”. Then you can choose what inventory source to sync and in what condition (Success, Failure, Always). See the example workflow above to see how that looks like. You first add an “inventory sync” node after the first “azure_create_vm” node and then you link the other “azure_create_vm” nodes to it. Easy!
-   * When done with building the workflow, click SAVE.
+1. Click on the START node. A dialog will open where you can choose one of your job templates to add to the workflow.
+2. Choose “azure_create_vm” by clicking on the text (it is greyed-out , but you can still select it. A known bug), scroll down and click PROMPT. You can now fill in all the fields needed for this node.
+3. For the first azure_create_vm node select the same field values you used to create the test VM in the previous step. It will then reuse that VM.
+4. Click SELECT. A node has been added to the workflow.
+5. You can now click the START node again to add a step that runs parallel to the previous created step. This way you can, for example in this workflow, create multiple VM’s in parallel.
+6. Now first create all Azure VM’s you need and specify the correct OS, role and credentials. (Suggested vm names: winweb{x}, linweb{x}, windb, lindb, linlb).
+6. When you hover over the just created node 3 small icons appear:
+    - A green icon you can click to add a node after this node
+    - A red icon to remove this node
+    - A blue icon to create a link from this node to another existing node. You create the link by clicking on the node to link to. You select if this path should be followed “Always”, “On Success” or “On Failure” and you click SAVE to establish the link.
+    
+**Important!** After you have added the nodes that create the needed VM’s in Azure for your stack you want an inventory sync to happen because otherwise the playbooks that must operate on those VM’s have an empty inventory. To do this, add a node after the _azure_create_vm_ node(s) and, in the top of the dialog that appears, choose _INVENTORY SYNC_. Then you can choose what inventory source to sync (Azure) and in what condition (Success, Failure, Always). See the example workflow above to see how that looks like. You first add an “inventory sync” node after the first “azure_create_vm” node and then you _link_ the other _azure_create_vm_ nodes to it. Easy!
 
+When done with building your workflow, click SAVE.
 
-With this simple (...) set of instructions, you should be able to build out the workflow the way you want it, so have a go at it!
+> **_Notes:_**
+>
+>You can move the workflow diagram on your screen by click-and-drag on an empty spot in the workflow area.
+>You can zoom in or out by doing a two-finger drag (without click!) in de workflow area up or down.
+>You can also do both these actions by clicking on the gear icon in the top right of the workflow area.
 
+[(top)](#table-of-contents)
 
-Notes:
-   * You can move the workflow diagram on your screen by click-and-drag on an empty spot in the workflow area.
-   * You can zoom in or out by doing a two-finger drag (without click!) in de workflow area up or down.
-   * You can also do both these actions by clicking on the gear icon in the top right of the workflow area.
-________________
+## Finalize workflow template
 
+We are almost there! Ony three things left to do, and one is to add a survey to the workflow template. Why would we need that? Well, the web app needs a name, of course! This is optional and if you don’t create a survey, the website playbooks are smart enough to define a default name for the app. If your curious how that's done, just have a look in the specific playbooks in the git repo.
 
+1. Log into Ansible Tower as _webadmin_ (if you haven’t already).
+2. Go to the workflow template details that you have created and click ADD SURVEY.
+3. Create a field:
+    - Prompt: Name
+    - Description: Application Name
+    - Answer variable name: _appname_
+    - Answer type: _text_
+    - Minimum length: 4, Maximum length: 40
+    - Default answer: whatever you like
+    - Required: _no_
+    - Click _ADD_ and then _SAVE_
 
+Next, add a notification to the workflow. Notifications are a way to get notified of the result of a job run: Success or Failure. There are many notification methods and one of them is slack. We have already set up a notification to a slack channel for you to use. You can set various notifications on various levels (project, org, job template, etc) so it’s quite a powerful feature. Let’s add a slack notification to the workflow you’ve made:
 
-   1. Finalize workflow template
+1. Log into Ansible Tower as “admin” (only certain roles, such as admin and auditor, can manage notifications)
+2. Go to the workflow template details that you have created and click on _NOTIFICATIONS_. You see the list of notifications is currently one: the defined slack channel.
+3. Enable this notification for both SUCCESS and FAILURE by sliding the sliders to "On".
 
+> **_Notes:_**
+>
+>The slack channel should be displayed on the presentation screen. If it’s not, notify the instructor: he forgot..
 
-We are almost there! Three things left to do, and one is to add a survey to the workflow template. Why would we need that? The web app needs a name! This is optional and if you don’t create a survey, the website playbooks are smart enough to define a default name for the app. If your curious, just have a look in the specific playbooks in the git repo to see how that is done.
+Last (but not least), assign the _Execute_ role to the user named _user_ in _PERMISSIONS_. As you are already experienced on assigning roles, we will not elaborate on the details :-).
 
-
-   * Go to the workflow template details that you have created and click ADD SURVEY.
-   * Create a field:
-   * Prompt: Name
-   * Description: Application Name
-   * Answer variable name: appname
-   * Answer type: text
-   * Minimum length: 4, Maximum length: 40
-   * Default answer: whatever you like
-   * Required: no
-   * Click ADD and then SAVE
-
-
-Now, add a notification to the workflow. Notifications are a way to get notified of the result of a job run: Success or Failure. There are many notification methods and one of them is slack. We have already set up a notification to a slack channel for you to use. You can set various notifications on various levels (project, org, job template, etc) so it’s quite a powerful feature. Let’s add a slack notification to the workflow you’ve made:
-   * Log in as “admin” (only certain roles, such as admin and auditor, can manage notifications)
-   * Go to the workflow template details that you have created and click on NOTIFICATIONS. You see the list of notifications is currently one: the defined slack channel.
-   * Enable this notification for both SUCCESS and FAILURE.
-
-
-Note: the slack channel is displayed on the presentation screen. If it’s not, notify the instructor: he forgot..
-
-
-Last (but not least), assign the “Execute” role to the user named  “user” in PERMISSIONS. As you are already experienced on assigning roles, we will not elaborate on the details :-).
-________________
-
-
-   1. Execute the workflow
-
+## Execute the workflow
 
 Now we finally are ready to give the workflow a run for it’s money!
 
+You can run this workflow either as user _webadmin_ or as user _user_. The difference is that _webadmin_ has access to the logging, the inventory, etc, so if anything goes wrong you can immediately see what it is. When you execute the workflow as _user_, you only see the workflow and the ability to execute it. You can follow the execution, see if it succeeds or fails, but you have no access to the logging.
 
-You can run this workflow either as user “webadmin” or as user “user”. The difference is that “webadmin” has access to the logging, the inventory, etc, so if anything goes wrong you can immediately see what it is. When you execute the workflow as “user”, you only see the workflow and the ability to execute it. You can follow the execution, see if it succeeds or fails, but you have no access to the logging.
-   * Log in as either “webadmin” or “user”. (you now know the difference)
-   * Find the workflow in the list of templates and press the rocket icon next to it. If all is well it should ask for the application name because you just created that survey. Enter (optionally) a nice description, click NEXT and then, finally, click LAUNCH !!!
-   * The screen will now move to a graphical representation of the workflow and you see continued feedback where the execution is and what the result of each node’s execution is: a green outline means SUCCESS. A red outline FAILURE. The black dot means the node is currently executing. You can click on the “DETAILS” and it will bring you to the logging (if you are logged in as “webadmin”).
-   * Notice the azure_create_vm jobs run concurrently. That is a job template property.
-   * Hopefully your workflow will finish in one go. If it does, in the logging of the last step (the haproxy node) you find the details to access the website (basically, the public IP of the load balancer VM).
-   * It will take some time to complete. Studying the playbooks while waiting is a good idea..
-   * Finished? Well Done! Have some fun with the website!
-   * You can also access the load-balancer statics page (see logging for the details). It will ask you for a password. That password you already know.
+1. Log into Ansible Tower as either _webadmin_ or _user_. (you now know the difference)
+2. Find the workflow in the list of templates and press the rocket icon next to it. If all is well it should ask for the application name because you just created that survey. Enter (optionally) a nice description, click NEXT and then, finally, click _LAUNCH_ !!!
+3. The screen will now move to a graphical representation of the workflow and you see continued feedback where the execution is and what the result of each node’s execution is: a green outline means SUCCESS. A red outline FAILURE. The black dot means the node is currently executing. You can click on the _DETAILS_ and it will bring you to the logging (if you are logged in as _webadmin_).
+
+* Notice the azure_create_vm jobs run concurrently. That is a job template property.
+* Hopefully your workflow will finish in one go. If it does, in the logging of the last step (the haproxy node) you find the details to access the website (basically, the public IP of the load balancer VM).
+* It will take some time to complete. Studying the playbooks while waiting is a good idea..
+* Finished? Well Done! Have some fun with the website!
+* You can also access the load-balancer statics page (see logging for the details). It will ask you for a password. That password you already know.
 
 
 Notes:
