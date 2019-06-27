@@ -48,9 +48,6 @@ All these accounts have password: _r3dh4t1!_ (that includes the !)
 > A trusted certificate is not installed, so you need to accept an exception for this in your browser.
 This lab uses Azure. When creating resources in Azure there are restrictions on VM names, usernames and passwords. Read [here](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#are-there-any-computer-name-requirements) before you start if you do not know these restrictions!
 
-
-
-
 ## Goal
 Here is (again) an example of what kind of workflow you are tasked to build:
 ![example workflow](https://github.com/fvzwieten/ansible-mixed-hol/blob/master/workflow.png "Example Workflow")
@@ -77,28 +74,24 @@ Remember, this is just an example!
 _webadmin_ currently only has access to the Azure job templates as shared by the Ansible Tower admin. So, you need to grant access to the Windows and/or Linux projects, depending on how you want to build your stack.
 
 If you need Linux playbooks to build your stack:
-1. Log into Ansible Tower with the linuxadmin account
-2. Go to “Projects” in the left main menu. You see the projects this account has access to.
-3. Select “Linux”. You see all the details of this project, including the url of the playbook repository on GiTea.
-4. In the projects menu, select PERMISSIONS and click the   +  button.
-5. Select the “Web Admin” user
-6. In the lower menu, choose “Use” as assigned role (click in the input field for a list)
-7. In the lower menu, choose “Update” as assigned role (click in the input field for a list).
-8. Click  Save  
-9. Log out of Tower. That is the “switch” icon in the upper right corner of the Tower UI, next to the “book” icon.
+1. Log into _Ansible Tower_ with the _linuxadmin_ account
+2. Go to _Projects_ in the left main menu. You see the projects this account has access to.
+3. Select _Linux_. You see all the details of this project, including the url of the playbook repository on your git server.
+4. In the _projects_ menu, select PERMISSIONS and click the **+** button.
+5. Select the _webadmin_ user
+6. In the lower menu, choose _Use_ as assigned role (click in the input field for a list)
+7. In the lower menu, choose _Update_ as assigned role (click in the input field for a list).
+8. Click _Save_
+9. Log out of _Ansible Tower_. That is the _switch_ icon in the upper right corner of the Tower UI, next to the _book_ icon.
 
-If you (also) need Windows playbooks to build your stack, repeat the previous step where you replace Linux with Windows.
-
-
-notes: 
-1. If you want to assign roles to teams instead of users, like you did just now (e.g. Web Team), you need to be Tower admin.
+If you (also) need Windows playbooks to build your stack, repeat the previous step where you replace _Linux_ with _Windows_.
 
 
-________________
+> **_Notes:_**
+>
+>If you want to assign roles to teams instead of users, like you did just now (e.g. _Web Team_), you need to be a Ansible Tower _Global Admin_.
 
-
-1. Deploy a test VM
-
+## Test Deploy a VM
 
 Nothing stops us from already deploying a VM in Azure. You can use that VM in the later workflow. So, let’s execute a playbook that will do just that and see how that works:
 * Log into Ansible Tower as webadmin
