@@ -9,6 +9,7 @@
 - [Create Job Templates](#Create-Job-Templates)
 - [Finalize workflow template](#Finalize-workflow-template)
 - [Execute the workflow](#Execute-the-workflow)
+- [Cleanup](#Cleanup)
 
 ## Introduction
 Welcome to exercise 1 of the Ansible for Linux & Windows Hands-on Lab!
@@ -249,11 +250,14 @@ Next, add a notification to the workflow. Notifications are a way to get notifie
 2. Go to the workflow template details that you have created and click on _NOTIFICATIONS_. You see the list of notifications is currently one: the defined slack channel.
 3. Enable this notification for both SUCCESS and FAILURE by sliding the sliders to "On".
 
-> **_Notes:_**
->
->The slack channel should be displayed on the presentation screen. If it’s not, notify the instructor: he forgot..
+    > **_Notes:_**
+    >
+    >The slack channel should be displayed on the presentation screen. If it’s not, notify the instructor: he forgot..
 
 Last (but not least), assign the _Execute_ role to the user named _user_ in _PERMISSIONS_. As you are already experienced on assigning roles, we will not elaborate on the details :-).
+
+[(top)](#table-of-contents)
+
 
 ## Execute the workflow
 
@@ -263,62 +267,55 @@ You can run this workflow either as user _webadmin_ or as user _user_. The diffe
 
 1. Log into Ansible Tower as either _webadmin_ or _user_. (you now know the difference)
 2. Find the workflow in the list of templates and press the rocket icon next to it. If all is well it should ask for the application name because you just created that survey. Enter (optionally) a nice description, click NEXT and then, finally, click _LAUNCH_ !!!
-3. The screen will now move to a graphical representation of the workflow and you see continued feedback where the execution is and what the result of each node’s execution is: a green outline means SUCCESS. A red outline FAILURE. The black dot means the node is currently executing. You can click on the _DETAILS_ and it will bring you to the logging (if you are logged in as _webadmin_).
 
+* The screen will now move to a graphical representation of the workflow and you see continued feedback where the execution is and what the result of each node’s execution is: a green outline means SUCCESS. A red outline FAILURE. The black dot means the node is currently executing. You can click on the _DETAILS_ and it will bring you to the logging (if you are logged in as _webadmin_).
 * Notice the azure_create_vm jobs run concurrently. That is a job template property.
 * Hopefully your workflow will finish in one go. If it does, in the logging of the last step (the haproxy node) you find the details to access the website (basically, the public IP of the load balancer VM).
 * It will take some time to complete. Studying the playbooks while waiting is a good idea..
 * Finished? Well Done! Have some fun with the website!
 * You can also access the load-balancer statics page (see logging for the details). It will ask you for a password. That password you already know.
 
+> **_Note:_**
+>
+> If something has gone wrong, probably a node is displayed outlined in red. See what’s wrong in the logging, fix it, and restart the workflow job, just like you can restart a template job. You do this by going into the workflow jobs details page and press the run icon (so, NOT the job template details!). This will restart the workflow with the previously entered survey. You don’t need to worry about creating VMs multiple times. Ansible will take care of just creating the VMs that do not exist yet. It is omnipotent in that regard.
 
-Notes:
-   * If something has gone wrong, probably a node is displayed outlined in red. See what’s wrong in the logging, fix it, and restart the workflow job, just like you can restart a template job. You do this by going into the workflow jobs details page and press the run icon (so, NOT the job template details!). This will restart the workflow with the previously entered survey. You don’t need to worry about creating VMs multiple times. Ansible will take care of just creating the VMs that do not exist yet. It is omnipotent in that regard.
-
-
-   1. Cleanup
-
+## Cleanup
 
 After you have recovered from the amazement of your result it is time to clean up. We made a special job template for that:
-   * Log in as “webadmin”
-   * Find the job template called “azure_delete_all” and execute it. It will ask for a confirmation (duh!) and if you confirm, it will remove all the VM’s you have created in Azure.
 
+1. Log into Ansiuble tower as _webadmin_ (if you haven't already)
+2. Find the job template called _azure_delete_all_ and execute it. It will ask for a confirmation (duh!) and if you confirm, it 
 
-Note: If you plan to also do the other exercise, it is mandatory that you do this.
-________________
+will remove all the VM’s you have created in Azure.
 
+> **_Important!:_**
+>
+> If you plan to do another exercise, it is mandatory that you do this step!
 
+## Thank you!
 
-
-        Thank you!
-        
-We hope you got a good sense of the basics around Ansible for Windows and Ansible Tower. We do invite you to continue learning Ansible. Here are some great resources you can use to further develop you Ansible skills:
-
+We hope you got a good sense of the basics around Ansible Tower. We do invite you to continue learning Ansible and Ansible Tower. Here are some great resources you can use to further develop you Ansible skills:
 
 Quick Start Video:
 https://www.ansible.com/quick-start-video
 
-
 Ansible Documentation:
 https://docs.ansible.com/
-
 
 Ansible Galaxy:
 https://galaxy.ansible.com/
 
-
 List of all modules:
 https://docs.ansible.com/ansible/latest/modules/modules_by_category.html
-
 
 Get a Ansible Tower Trial license:
 https://www.ansible.com/products/tower/trial
 
+Manage Windows like Linux with Ansible:
+https://www.youtube.com/watch?v=FEdXUv02Dbg
 
-Manage Windows like Linux with Ansible: https://www.youtube.com/watch?v=FEdXUv02Dbg
-
-
-All playbooks are permanently available on https://github.com/fvzwieten
+All playbooks are permanently available on:
+https://github.com/fvzwieten
 
 
 
