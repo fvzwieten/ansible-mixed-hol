@@ -35,8 +35,12 @@ Where {guid} is the 4 character code you received at the start of the LAB.
 Username: _git_
 Password: _r3dh4t1!_
 
-> **_Note:_**  a trusted certificate is not installed, so you need to accept an exception for this in your browser.
+
+> **_Note:_** 
+
+> A trusted certificate is not installed, so you need to accept an exception for this in your browser.
 This lab uses Azure. When creating resources in Azure there are restrictions on VM names, usernames and passwords. Read [here](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#are-there-any-computer-name-requirements) before you start if you do not know these restrictions!
+
 
 ## Goal
 Here is (again) an example of what kind of workflow you are tasked to build:
