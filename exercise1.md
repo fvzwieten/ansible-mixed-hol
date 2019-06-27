@@ -170,13 +170,13 @@ Depending on how you want to deploy _your_ version of the stack, you now add job
 1. Log into Ansible Tower as _webadmin_ (if you haven’t already)
 2. Go to _Templates_ in the left main menu and click the green _+_ button and choose _Job Template_
 3. Fill out like this:
-..- _NAME_: choose the name of the playbook and make it the same as the node in the above workflow, for example “linux_deploy_apache”
-..- _DESCRIPTION_: is optional and you can choose anything
-..- _INVENTORY_: The Inventory you just created
-..- _PROJECT_: Choose _Windows_ or _Linux_, depending on the building block.
-..- _PLAYBOOK_: Choose the correct playbook from the dropdown list.
-..- _CREDENTIAL_: Choose the Machine Credential you just created.
-    **Important!** Certain playbooks use vaulted files that contain resource credentials, as explained above. Those vaults are encrypted using ansible-vault. To be able to decrypt them a vault credential needs to be specified when used in a playbook. The *_website and the *_db playbooks need the “Database Access” vault credential and the linux_deploy_haproxy playbook needs the “Load Balancers” vault credential. You can specify multiple credentials for a playbook (makes sense, right?). To do this open the searchbox of the Credential field again and choose “Vault” in the dropdown. Now you see the Vault credentials you have access to and you can choose the one you need for the playbook at hand.
+    - _NAME_: choose the name of the playbook and make it the same as the node in the above workflow, for example “linux_deploy_apache”
+    - _DESCRIPTION_: is optional and you can choose anything
+    - _INVENTORY_: The Inventory you just created
+    - _PROJECT_: Choose _Windows_ or _Linux_, depending on the building block.
+    - _PLAYBOOK_: Choose the correct playbook from the dropdown list.
+    - _CREDENTIAL_: Choose the Machine Credential you just created.
+      **Important!** Certain playbooks use vaulted files that contain resource credentials, as explained above. Those vaults are encrypted using ansible-vault. To be able to decrypt them a vault credential needs to be specified when used in a playbook. The *_website and the *_db playbooks need the “Database Access” vault credential and the linux_deploy_haproxy playbook needs the “Load Balancers” vault credential. You can specify multiple credentials for a playbook (makes sense, right?). To do this open the searchbox of the Credential field again and choose “Vault” in the dropdown. Now you see the Vault credentials you have access to and you can choose the one you need for the playbook at hand.
 4. Click SAVE.
 
 Repeat these steps for each building block in your workflow. It might seem like a lot of work, but once you’ve done one or two, it becomes second nature and you can make them quite fast :-)
