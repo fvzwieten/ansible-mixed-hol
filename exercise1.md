@@ -1,7 +1,8 @@
 # Exercise 1: Mixed Web Stack
 ## Table of Contents
-1. [Introduction](#introduction)
-2. [Goal](#goal)
+- [Introduction](#introduction)
+- [Goal](#goal)
+- [Permissions](#permissions)
 
 ## Introduction
 Welcome to exercise 1 of the Ansible for Linux & Windows Hands-on Lab!
@@ -10,19 +11,19 @@ Where {guid} is the 4 character code you received at the start of the LAB.
 
 You have the following accounts available on your Tower machine:
 
-**windowsadmin**
+- **windowsadmin**
 This persona maintains all windows playbooks. He has admin rights on the Tower project for Windows playbooks. If you want to use his playbooks, you must ask him nicely.
 
-**linuxadmin**
+- **linuxadmin**
 This persona maintains all linux playbooks. He has admin rights on the Tower project for Linux playbooks. If you want to use his playbooks, you must ask him even more nicely.
 
-**webadmin**
+- **webadmin**
 This persona’s job is to build and maintain web stacks. He needs the playbooks from the other persona’s to do her or his job.
 
-**admin**
+- **admin**
 The tower administrator maintains the Azure playbooks. He is a nice guy by default. He already gave permission to use them, including the credentials you need to be able to use them. Neat!
 
-**user**
+- **user**
 This is the persona who is able to run but not maintain workflows.
 
 These accounts are all member of the Ansible Tower Organization _“ACME Corporation”_
@@ -32,8 +33,9 @@ All these accounts have password: _r3dh4t1!_ (that includes the !)
 The url of the gitlab where your repositories live is: https://control-{guid}.rhpds.opentlc.com
 
 Where {guid} is the 4 character code you received at the start of the LAB.
-Username: _git_
-Password: _r3dh4t1!_
+
+* Username: _git_
+* Password: _r3dh4t1!_
 
 
 > **_Note:_**
@@ -41,6 +43,7 @@ Password: _r3dh4t1!_
 > A trusted certificate is not installed, so you need to accept an exception for this in your browser.
 This lab uses Azure. When creating resources in Azure there are restrictions on VM names, usernames and passwords. Read [here](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#are-there-any-computer-name-requirements) before you start if you do not know these restrictions!
 
+---
 
 ## Goal
 Here is (again) an example of what kind of workflow you are tasked to build:
@@ -55,27 +58,30 @@ Remember, this is just an example!
 * You actually deploy a real working website where you can maintain users that are stored in the database.
 
 
-> **_Note:_**
-1. If you deploy multiple database servers, which does not make sense at all, the web servers will only use the first one in the inventory.
-2. The load balancer is always Linux based. This is because the Windows Network Load Balancer (WNLB) is not supported on Azure and haproxy is not available for Windows. Using the Azure load balancer would have been a solution, but defeats the scope of this lab.
-3. You are free to deploy a stack with just one web server and then a load balancer is not needed and you can thus ignore the instructions on the load balancer part, but that would be less fun!
-1. Give Permissions
+> **_Notes:_**
+>
+>1. If you deploy multiple database servers, which does not make sense at all, the web servers will only use the first one in the inventory.
+>2. The load balancer is always Linux based. This is because the Windows Network Load Balancer (WNLB) is not supported on Azure and haproxy is not available for Windows. Using the Azure load balancer would have been a solution, but defeats the scope of this lab.
+>3. You are free to deploy a stack with just one web server and then a load balancer is not needed and you can thus ignore the instructions on the load balancer part, but that would be less fun!
 
 
-“webadmin” currently only has access to the Azure job templates as shared by the Ansible Tower admin. So, you need to grant access to the Windows and/or Linux projects, depending on how you want to build your stack.
 
+## Permissions
 
-* If you need Linux playbooks to build your stack:
-   1. Log into Ansible Tower with the linuxadmin account
-   2. Go to “Projects” in the left main menu. You see the projects this account has access to.
-   3. Select “Linux”. You see all the details of this project, including the url of the playbook repository on GiTea.
-   4. In the projects menu, select PERMISSIONS and click the   +  button.
-   5. Select the “Web Admin” user
-   6. In the lower menu, choose “Use” as assigned role (click in the input field for a list)
-   7. In the lower menu, choose “Update” as assigned role (click in the input field for a list).
-   8. Click  Save  
-   9. Log out of Tower. That is the “switch” icon in the upper right corner of the Tower UI, next to the “book” icon.
-* If you (also) need Windows playbooks to build your stack, repeat the previous step where you replace Linux with Windows.
+_webadmin_ currently only has access to the Azure job templates as shared by the Ansible Tower admin. So, you need to grant access to the Windows and/or Linux projects, depending on how you want to build your stack.
+
+If you need Linux playbooks to build your stack:
+1. Log into Ansible Tower with the linuxadmin account
+2. Go to “Projects” in the left main menu. You see the projects this account has access to.
+3. Select “Linux”. You see all the details of this project, including the url of the playbook repository on GiTea.
+4. In the projects menu, select PERMISSIONS and click the   +  button.
+5. Select the “Web Admin” user
+6. In the lower menu, choose “Use” as assigned role (click in the input field for a list)
+7. In the lower menu, choose “Update” as assigned role (click in the input field for a list).
+8. Click  Save  
+9. Log out of Tower. That is the “switch” icon in the upper right corner of the Tower UI, next to the “book” icon.
+
+If you (also) need Windows playbooks to build your stack, repeat the previous step where you replace Linux with Windows.
 
 
 notes: 
