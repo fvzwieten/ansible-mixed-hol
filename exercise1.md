@@ -151,8 +151,10 @@ As you know by now you need an inventory of machines you want your playbooks to 
 5. Give the source a _NAME_(suggestion: _Azure_) and optionally a _DESCRIPTION_. Choose _Microsoft Azure Resource Manager_ as the _SOURCE_ (note that the _CREDENTIAL_ is auto populated to the _Azure CREDENTIAL_, because that is the only one with that type you have access to).
 6. Select _Overwrite_ in the _UPDATE OPTIONS_ (click the _?_ next to it to get an explanation on this option)
 7. **Important**: In _SOURCE VARIABLES_, just below the “---”, so on line 2, type in the following:
->resource_groups: ansible_workshop_{guid}
-This little trick will filter the hosts in Azure to those that are in your Azure resource group.
+    ```
+    resource_groups: ansible_workshop_{guid}
+    ```    
+    This little trick will filter the hosts in Azure to those that are in your Azure resource group.
 8. Click _SAVE_
 9. Click the _SYNC ALL_ button. It will now start syncing your current VM’s in Azure into your inventory.
 10. When the synchronization is done (the cloud icon next to the source stops blinking and is green), click the _HOSTS_ submenu item within the inventory. If all is well you see the VM you deployed in the previous step. If you see none or more than one, **that is not good! Stop right here! Talk to the instructor!**
