@@ -53,7 +53,7 @@ This lab uses Azure. When creating resources in Azure there are restrictions on 
 
 ## Goal
 Here is (again) an example of what kind of workflow you are tasked to build:
-![example workflow](https://github.com/fvzwieten//raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![example workflow](https://github.com/fvzwieten/ansible-mixed-hol/blob/master/workflow.png "Example Workflow")
 Remember, this is just an example!
 
 * If you choose to use Linux for your web server, you must use the playbooks linux_deploy_apache and linux_deploy_website as your building blocks of choice
