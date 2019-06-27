@@ -1,12 +1,14 @@
-# Introduction
----
+# Exercise 1: Mixed Web Stack
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Goal](#goal)
+
+## Introduction
 Welcome to exercise 1 of the Ansible for Linux & Windows Hands-on Lab!
 The url of the Ansible Tower cluster where you work on is: https://tower-{guid}.rhpds.opentlc.com
 Where {guid} is the 4 character code you received at the start of the LAB.
 
 You have the following accounts available on your Tower machine:
-
-| tables | are | cool |
 
 **windowsadmin**
 This persona maintains all windows playbooks. He has admin rights on the Tower project for Windows playbooks. If you want to use his playbooks, you must ask him nicely.
@@ -23,42 +25,23 @@ The tower administrator maintains the Azure playbooks. He is a nice guy by defau
 **user**
 This is the persona who is able to run but not maintain workflows.
 
-These accounts are all member of the Ansible Tower Organization “ACME Corporation”
+These accounts are all member of the Ansible Tower Organization _“ACME Corporation”_
 
-All these accounts have password: r3dh4t1! (that includes the !)
+All these accounts have password: _r3dh4t1!_ (that includes the !)
 
 The url of the gitlab where your repositories live is: https://control-{guid}.rhpds.opentlc.com
 
 Where {guid} is the 4 character code you received at the start of the LAB.
-Username: git
-Password: r3dh4t1!
-________________
+Username: _git_
+Password: _r3dh4t1!_
 
+> **_Note:_**  a trusted certificate is not installed, so you need to accept an exception for this in your browser.
+This lab uses Azure. When creating resources in Azure there are restrictions on VM names, usernames and passwords. Read [here](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#are-there-any-computer-name-requirements) before you start if you do not know these restrictions!
 
-
-
-Notes:  a trusted certificate is not installed, so you need to accept an exception for this in your browser.
-This lab uses Azure. When creating resources in Azure there are restrictions on VM names, usernames and passwords. Read
-
-
-https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#are-there-any-computer-name-requirements
-     
-before you start if you do not know these restrictions!
-
-
-________________
-
-
-Mixed Web Stack
-
-
+## Goal
 Here is (again) an example of what kind of workflow you are tasked to build:
 
-
-  
-
 Remember, this is just an example!
-
 
 * If you choose to use Linux for your web server, you must use the playbooks linux_deploy_apache and linux_deploy_website as your building blocks of choice
 * If you choose to use Windows for your web server, you must use the playbooks windows_deploy_iis and windows_deploy_website.
@@ -68,7 +51,7 @@ Remember, this is just an example!
 * You actually deploy a real working website where you can maintain users that are stored in the database.
 
 
-notes: 
+> **_Note:_**
 1. If you deploy multiple database servers, which does not make sense at all, the web servers will only use the first one in the inventory.
 2. The load balancer is always Linux based. This is because the Windows Network Load Balancer (WNLB) is not supported on Azure and haproxy is not available for Windows. Using the Azure load balancer would have been a solution, but defeats the scope of this lab.
 3. You are free to deploy a stack with just one web server and then a load balancer is not needed and you can thus ignore the instructions on the load balancer part, but that would be less fun!
