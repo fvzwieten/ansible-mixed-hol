@@ -49,6 +49,7 @@ All these accounts have password: _r3dh4t1!_ (that includes the !)
 >
 > A trusted certificate is not installed, so you need to accept an exception for this in your browser.
 This lab uses Azure. When creating resources in Azure there are restrictions on VM names, usernames and passwords. Read [here](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#are-there-any-computer-name-requirements) before you start if you do not know these restrictions!
+
 [^](#table-of-contents)
 
 ## Goal
