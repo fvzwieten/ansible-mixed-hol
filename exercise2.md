@@ -191,8 +191,8 @@ The used playbooks need a survey defined on the job template to be able to work.
 
 Survey for job template _windows_create_dc_
 
-| PROMPT   | DESCRIPTION | ANSWER VARIABLE NAME | ANSWER TYPE | MIN LEN | MAX LEN | REQUIRED |
-| ---------|-------------|----------------------|-------------|---------|---------|----------|
+|:PROMPT   |:DESCRIPTION |:ANSWER VARIABLE NAME | ANSWER TYPE | MIN LEN | MAX LEN | REQUIRED |
+| ---------|-------------|----------------------|:-----------:|:-------:|:-------:|:--------:|
 | Name     | Domain Name | domain_name          | text        | 4       | 3       | Yes      |
 | Password | Password    | password             | Password    | 8       | 20      | Yes      |
 	
