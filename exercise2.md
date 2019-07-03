@@ -204,7 +204,7 @@ Survey for job template _windows_create_user_
 | Domain Name | Domain Name | domain               | Text        | 4 - 30           | No       |
 | Username    | Username    | username             | Text        | 4 - 30           | Yes      |
 | Password    | Password    | password             | Password    | 8 - 20           | Yes      |
-| Group       | Group Name  | group                | Multiple Choice (Single Select) | Domain Admins Users | Yes |
+| Group       | Group Name  | group                | Multiple Choice (Single Select) |: Domain Admins Users | Yes |
 
 
 Survey for job template linux_join_domain
