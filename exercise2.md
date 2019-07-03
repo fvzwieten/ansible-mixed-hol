@@ -185,42 +185,16 @@ Repeat this exercise for each building block in your workflow. If might seem lik
 >
 >If multiple nodes in the above workflow execute the same job template, as for example with windows_create_user, you only need to denine the job template once. 
 
+## Build Surveys
 
+The used playbooks need a survey defined on the job template to be able to work. This way, the template will provide the playbook with user defined var’s. You create a survey by going to the job template details and click on _ADD SURVEY_. Here you can enter the specification of each field in the survey. When you’re done, click _SAVE_. Here is the specification for the survey of each job template that you need to make:
 
+Survey for job template _windows_create_dc_
 
-   1. Build Surveys
-The used playbooks need a survey defined on the job template to be able to work. This way, the template will provide the playbook with user defined var’s. You create a survey by going to the job template details and click on ADD SURVEY. Here you can enter the specification of each field in the survey. When you’re done, click SAVE. Here is the specification for the survey of each job template that you need to make:
-
-
-Survey for job template windows_create_dc
-
-
-PROMPT
-	DESCRIPTION
-	ANSWER
-VARIABLE
-NAME
-	ANSWER
-TYPE
-	MIN.
-LEN
-	MAX
-LEN
-	REQUIRED
-	Name
-	Domain Name
-	domain_name
-	text
-	4
-	30
-	Yes
-	Password
-	Password
-	password
-	Password
-	8
-	20
-	Yes
+PROMPT   | DESCRIPTION | ANSWER VARIABLE NAME | ANSWER TYPE | MIN LEN | MAX LEN | REQUIRED
+--------------------------------------------------------------------------------------------
+Name     | Domain Name | domain_name          | text        | 4       | 3       | Yes
+Password | Password    | password             | Password    | 8       | 20      | Yes
 	
 
 
