@@ -191,63 +191,20 @@ The used playbooks need a survey defined on the job template to be able to work.
 
 Survey for job template _windows_create_dc_
 
-|:PROMPT   |:DESCRIPTION |:ANSWER VARIABLE NAME | ANSWER TYPE | MIN LEN | MAX LEN | REQUIRED |
+| PROMPT   | DESCRIPTION | ANSWER VARIABLE NAME | ANSWER TYPE | MIN LEN | MAX LEN | REQUIRED |
 | ---------|-------------|----------------------|:-----------:|:-------:|:-------:|:--------:|
-| Name     | Domain Name | domain_name          | text        | 4       | 3       | Yes      |
+| Name     | Domain Name | domain_name          | Text        | 4       | 3       | Yes      |
 | Password | Password    | password             | Password    | 8       | 20      | Yes      |
 	
 
+Survey for job template _windows_create_user_
 
-
-Survey for job template windows_create_user
-
-
-PROMPT
-	DESCRIPTION
-	ANSWER
-VARIABLE
-NAME
-	ANSWER
-TYPE
-	MIN.
-LEN
-	MAX
-LEN
-	REQ
-	Domain
-	Domain Name
-	domain
-	text
-	4
-	30
-	No
-	Name
-	Username
-	username
-	Text
-	4
-	30
-	Yes
-	Password
-	Password
-	password
-	Password
-	8
-	20
-	Yes
-	Group
-	Group Name
-	group
-	Multiple
-Choice (Single Select)
-	Domain Admins
-Users
-	Yes
-	
-
-________________
-
-
+| PROMPT      | DESCRIPTION | ANSWER VARIABLE NAME | ANSWER TYPE | MIN LEN | MAX LEN | REQUIRED |
+| ------------|-------------|----------------------|:-----------:|:-------:|:-------:|:--------:|
+| Domain Name | Domain Name | domain               | Text        | 4       | 30      | No       |
+| Username    | Username    | username             | Text        | 4       | 30      | Yes      |
+| Password    | Password    | password             | Password    | 8       | 20      | Yes      |
+| Group       | Group Name  | group                | Multiple Choice (Single Select) | Domain Admins Users | Yes |
 
 
 Survey for job template linux_join_domain
