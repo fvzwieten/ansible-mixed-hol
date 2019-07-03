@@ -199,11 +199,11 @@ Survey for job template _windows_create_dc_
 
 Survey for job template _windows_create_user_
 
-| PROMPT      | DESCRIPTION | ANSWER VARIABLE NAME | ANSWER TYPE | MIN LEN | MAX LEN | REQUIRED |
-| ------------|-------------|----------------------|:-----------:|:-------:|:-------:|:--------:|
-| Domain Name | Domain Name | domain               | Text        | 4       | 30      | No       |
-| Username    | Username    | username             | Text        | 4       | 30      | Yes      |
-| Password    | Password    | password             | Password    | 8       | 20      | Yes      |
+| PROMPT      | DESCRIPTION | ANSWER VARIABLE NAME | ANSWER TYPE | MIN LEN   MAX LEN | REQUIRED |
+| ------------|-------------|----------------------|:-----------:|:-----------------:|:--------:|
+| Domain Name | Domain Name | domain               | Text        | 4         30      | No       |
+| Username    | Username    | username             | Text        | 4         30      | Yes      |
+| Password    | Password    | password             | Password    | 8         20      | Yes      |
 | Group       | Group Name  | group                | Multiple Choice (Single Select) | Domain Admins Users | Yes |
 
 
