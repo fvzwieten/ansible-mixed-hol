@@ -7,6 +7,7 @@
 - [Create Machine Credential](#Create-Machine-Credential)
 - [Create an Inventory](#Create-an-Inventory)
 - [Create Job Templates](#Create-Job-Templates)
+- [Build Surveys](#Build-Surveys)
 - [Finalize workflow template](#Finalize-workflow-template)
 - [Execute the workflow](#Execute-the-workflow)
 - [Cleanup](#Cleanup)
@@ -167,9 +168,9 @@ As you know by now you need an inventory of machines you want your playbooks to 
 ## Create Job Templates
 
 You now add job templates for each node in the above workflow:
-* Log into Ansible Tower as _linuxadmin_ (if you haven’t already)
-* Go to _Templates_ in the left main menu, click the green + button and choose _Job Template_
-* Fill out the details like this:
+1. Log into Ansible Tower as _linuxadmin_ (if you haven’t already)
+2. Go to _Templates_ in the left main menu, click the green + button and choose _Job Template_
+3. Fill out the details like this:
     * _NAME_: choose the name of the playbook and make it the same as the node in the above workflow, for example _windows_create_user_
    * _DESCRIPTION:_ is optional and you can choose anything
    * _INVENTORY:_ The Inventory you just created
@@ -219,6 +220,7 @@ Survey for job template _**linux_join_domain**_
 | Password    | Admin Password | ad_password          | Password    | 8 - 20           | No       |	
 
 > _**Note:**_
+>
 > Did you notice some fields in the survey specification are optional (REQ: No)? So what would happen if you keep them empty in the workflow? Here, a nice feature is demonstrated: The ability to pass data from one node in a workflow to nodes that follow it. How that works? Go look at the underlying playbooks in gitlab and search for the method “set_stats”. That should explain it. You can test it by actually leave all fields that are optional empty, which we will do below.
 
 [(top)](#table-of-contents)
@@ -226,146 +228,83 @@ Survey for job template _**linux_join_domain**_
 ## Create workflow template
 
 Now we finally have all the needed components to build a workflow. Phew! A workflow is a set of job templates (and thus playbooks) that are linked together in a certain specific way such that multiple job templates are executed in a predictable order. Each job template in a workflow is called a _node_.
+1. Log into Ansible Tower as _linuxadmin_ (if you haven’t already).
+2. Go to _Templates_ in the left main menu and click the green + button and choose _Workflow Template_
+3. Fill out the details like this:
+    * _NAME:_ name the workflow “create_windows_domain_with_linux_client” (just to show you can create really long template names ;-)
+    * _DESCRIPTION:_ is optional and you can choose anything
+    * _ORGANIZATION:_ Choose ACME Division 
+    * _INVENTORY:_ Choose the Azure inventory you made previously
+ 4. Click _SAVE_.
+ 
+ You are now brought to the _Workflow Visualizer_. Here you can graphically build out your workflow.
+ 5. Click on the _START_ node. A dialog will open where you can choose one of your job templates to add to the workflow.
+ 6. Choose _azure_create_vm_ by clicking on the name (it is greyed-out , but you can still select it by clicking the text. A known bug), scroll down and click _PROMPT_.
+ 7. You can now fill out the survey needed for this node. For the first _azure_create_vm_ node select the same values you used to create the test VM in a previous step. It will then reuse that VM.
+ 8. Click _SELECT_.
+ 9. You can now click the _START_ step again to add a step that runs parallel to the previously created step.
+10. When you hover over one of the just created _azure_create_vm_ nodes 3 small icons appear:
+    * A green icon you can click to add a node after this node
+    * A red icon to remove this node
+    * A blue icon to create a link from this node to another existing node. You create the link by clicking on the target node. You select if this path should be followed “Always”, “On Success” or “On Failure” and you click SAVE to establish the link.
 
-   * Log into Ansible Tower as _linuxadmin_ (if you haven’t already).
-   * Go to “Templates” in the left main menu and click the green + button and choose _Workflow Template_
-   * NAME: name the workflow “create_windows_domain_with_linux_client” (just to show you can create really long template names ;-)
-   * DESCRIPTION: is optional and you can choose anything
-   * ORGANIZATION: Choose ACME Division 
-   * INVENTORY: Choose the Azure inventory you made previously
-   * Click SAVE
-   * You are now brought to the Workflow Visualizer. Here you can graphically build out your workflow.
-   * Click on the START node. A dialog will open where you can choose one of your job templates to add to the workflow.
-   * Choose “azure_create_vm” by clicking on the name (it is greyed-out , but you can still select it by clicking the text. A known bug), scroll down and click PROMPT. You can now fill in all the fields needed for this node. For the first azure_create_vm node select the same field values you used to create the test VM in the previous step. It will then reuse that VM.
-   * Click SELECT.
-   * You can now click the START step again to add a step that runs parallel to the previous created step.
-   * When you hover over the just created node 3 small icons appear:
-   * A green icon you can click to add a node after this node
-   * A red icon to remove this node
-   * A blue icon to create a link from this node to another existing node. You create the link by clicking on the node to link to. You select if this path should be followed “Always”, “On Success” or “On Failure” and you click SAVE to establish the link.
-   * You need to create 2 VM’s: One Windows VM with role “dcserver” and one VM with role “webserver” (the one you already made).
-   * Important! After you have added the nodes that create the needed VM’s in Azure for your workflow you want an inventory sync to happen because otherwise the playbooks that must operate on those VM’s have an empty inventory. To do this, add a node after the node(s) that create the VM(s) and, in the top of the dialog that appears, choose “INVENTORY SYNC”. Then you can choose what inventory source to sync and in what condition (Success, Failure, Always). See the example workflow above to see how that looks like. You first add an “inventory sync” node after the first “azure_create_vm” node and then you link the other “azure_create_vm” node to it. Easy!
-   * Make sure you use a 2-part domain name for the node windows_create_domain. Something like blah.local and not blah.
-   * The node “windows_create_user” that precedes the node “linux_join_domain” must create a user that is a member of the domain_admins group.
-   * Make sure you choose usernames that are unique and have not used before.
-   * When done with building the workflow, click SAVE.
-   * Do NOT fill out the survey for the linux_join_domain node. Why not? Did you notice some fields in the survey specification are optional (REQ: NO)? So what would happen if you keep them empty? Here, a nice feature is demonstrated: The ability to pass data from one node to nodes that follow it. How that works? Go look at the underlying playbooks in gitlab and search for the method “set_stats”. That should explain it. You can test it by actually leave all field that are optional empty, which we do here.
+11. You need to create 2 VM’s: One Windows VM with role “dcserver” and one VM with role “webserver” (the one you already made).
 
+12. After you have added the nodes that create the needed VM’s in Azure for your workflow you want an inventory sync to happen because otherwise the playbooks that must operate on those VM’s have an empty inventory. To do this, add a node after the _azure_create_vm_ node(s) and, in the top of the dialog that appears, choose _INVENTORY SYNC_. Then you can choose what inventory source to sync and in what condition (Success, Failure, Always). See the example workflow above to see how that looks like. You first add (green icon) an “inventory sync” node after the first “azure_create_vm” node and then you link (blue icon) the other “azure_create_vm” node to it. Easy!
+13. Make sure you use a 2-part domain name for the node _windows_create_domain_. So, _example.com_ and not _example_.
+14. The node _windows_create_user_ that precedes the node _linux_join_domain_ must create a user that is a member of the _domain_admins_ group.
+15. Make sure you choose usernames that are unique and you have not used before.
+16. When done with building the workflow, click SAVE.
+17. Do NOT fill out the survey for the linux_join_domain node. Why not? Did you notice some fields in the survey specification are optional (REQ: NO)? So what would happen if you keep them empty? Here, a nice feature is demonstrated: The ability to pass data from one node to nodes that follow it. How that works? Go look at the underlying playbooks in gitlab and search for the method “set_stats”. That should explain it. You can test it by actually leave all field that are optional empty, which we do here.
 
 With this simple (...) set of instructions, you should be able to build out the workflow for this exercise, so have a go at it!
 
+>_**Notes:**_
+>
+>* You can move the workflow diagram on you screen by click-and-drag on an empty spot in the workflow area.
+>* You can zoom in or out by doing a two-finger drag (without click!) in de workflow area up or down.
+>* You can use both these actions also by clicking on the gear icon in the top right of the workflow area.
 
-Notes:
-   * You can move the workflow diagram on you screen by click-and-drag on an empty spot in the workflow area.
-   * You can zoom in or out by doing a two-finger drag (without click!) in de workflow area up or down.
-   * You can use both these actions also by clicking on the gear icon in the top right of the workflow area.
+[(top)](#table-of-contents)
 
+## Finalize workflow template
 
+Now, add a notification to the workflow. Notifications are a way to get notified of the result of a job run: Success or Failure. There are many notification methods and one of them is _Slack_. We have already set up a notification to a Slack channel for you to use. You can set various notifications on various levels (project, org, job template, etc) so it’s a quite powerful feature. Let’s add a Slack notification to the workflow you made:
+1. Log in as “admin” (only certain roles, such as admin and auditor, can manage notifications)
+2. Go to the workflow template details that you have created and click on NOTIFICATIONS. You see the list of notifications is currently one: the defined slack channel.
+3. Enable the notification for both SUCCESS and FAILURE.
 
-
-   1. Finalize workflow template
-
-
-Now, add a notification to the workflow. Notifications are a way to get notified of the result of a job run: Success or Failure. There are many notification methods and one of them is slack. We have already set up a notification to a slack channel for you to use. You can also set various notifications on various levels (project, org, job template, etc) so it’s quite a powerful feature. Let’s add a slack notification to the workflow you made:
-   * Log in as “admin” (only certain roles, such as admin and auditor, can manage notifications)
-   * Go to the workflow template details that you have created and click on NOTIFICATIONS. You see the list of notifications is currently one: the defined slack channel.
-   * Enable this notification for both SUCCESS and FAILURE.
-
-
-Note: the slack channel is displayed on the presentation screen. If it’s not, notify the instructor: he forgot ;-).
-
+> _**Note:**_
+>
+> The slack channel is displayed on the presentation screen. If it’s not, notify the instructor: he forgot ;-).
 
 Last (but not least), assign the “Execute” role to the user named  “user” in PERMISSIONS. As you are already experienced on assigning roles, we will not elaborate on the details :-).
 
+[(top)](#table-of-contents)
 
-________________
-
-
-
-
-   1. Execute workflow template
-
+## Execute workflow template
 
 Now we finally are ready to give the workflow a run for its money!
-You can run this workflow either as user “linuxadmin” or as user “user”. The difference is that “linuxadmin” has access to the logging, the inventory, etc, so if anything goes wrong you can immediately see what it is. When you execute the workflow as “user”, you only see the workflow and the ability to execute it. You can follow the execution, see if it succeeds or fails, but you have no access to the logging.
-   * Log in as either “linuxadmin” or user “user”.
-   * Find the workflow in the list of templates and press the rocket icon next to it.
-   * The screen will move to a graphical representation of the workflow and you see continued feedback where the execution is and what the result of each node’s execution is: a green outline means SUCCESS. A red outline FAILURE. You can click on the “DETAILS” and it will bring you to the logging if you are logged in as “linuxadmin”.
-   * Hopefully your workflow will finish in one go. If it does, in the logging of the last step (the haproxy node) you find the details to access the website (basically, the public IP of the load balancer VM).
-   * Well Done!
+You can run this workflow either as user _linuxadmin_ or as user _user_. The difference is that _linuxadmin_ has access to the logging, the inventory, etc, so if anything goes wrong you can immediately see what it is. When you execute the workflow as _user_, you only see the workflow and the ability to execute it. You can follow the execution, see if it succeeds or fails, but you have no access to the logging.
+1. Log in as either _linuxadmin_ or _user_. (You now know the difference).
+2. Find the workflow in the list of templates and press the rocket icon next to it.
 
+The screen will move to a graphical representation of the workflow and you see continued feedback where the execution is and what the result of each node’s execution is: a green outline means SUCCESS. A red outline FAILURE. You can click on the “DETAILS” and it will bring you to the logging if you are logged in as _linuxadmin_.
 
-Notes:
+Hopefully your workflow will finish in one go. If it does, in the logging of the last step (the haproxy node) you find the details to access the website (basically, the public IP of the load balancer VM).
 
+> _**Note:**_
+>
+> If something has gone wrong, probably a node is displayed in red. See what’s wrong, fix it, and restart the workflow job, just like you can restart a template job. You do this by going into the workflow jobs details page and press the run icon. This will restart the workflow with the previously entered survey. You don’t need to worry about creating VMs multiple times. Ansible will take care of just creating the VMs that do not exist yet.
 
-   * If something has gone wrong, probably a node is displayed in red. See what’s wrong, fix it, and restart the workflow job, just like you can restart a template job. You do this by going into the workflow jobs details page and press the run icon. This will restart the workflow with the previously entered survey. You don’t need to worry about creating VMs multiple times. Ansible will take care of just creating the VMs that do not exist yet.
+[(top)](#table-of-contents)
 
-
-
-
-   1. Cleanup
-
+## Cleanup
 
 After you have recovered from the amazement of your result it is time to clean up. We made a special job template for that:
-   * Log in as “linuxadmin”
-   * Find the job template called “azure_delete_all” and execute it. It will ask for a confirmation (duh!) and if you confirm, it will remove all the VM’s you have created in Azure.
+1. Log in as “linuxadmin”
+2. Find the job template called “azure_delete_all” and execute it. It will ask for a confirmation (duh!) and if you confirm, it will remove all the VM’s you have created in Azure.
 
-
-Note: If you plan to also do the other exercise, it is mandatory that you do this.
-________________
-
-
-
-
-
-
-                        
-        Thank you!
-        
-We hope you got a good sense of the basics around Ansible for Windows and Ansible Tower. We do invite you to continue learning Ansible. Here are some great resources you can use to further develop you Ansible skills:
-
-
-Quick Start Video:
-https://www.ansible.com/quick-start-video
-
-
-Ansible Documentation:
-https://docs.ansible.com/
-
-
-Ansible Galaxy:
-https://galaxy.ansible.com/
-
-
-List of all modules:
-https://docs.ansible.com/ansible/latest/modules/modules_by_category.html
-
-
-Get a Ansible Tower Trial license:
-https://www.ansible.com/products/tower/trial
-
-
-Manage Windows like Linux with Ansible: https://www.youtube.com/watch?v=FEdXUv02Dbg
-
-
-All playbooks are permanently available on https://github.com/fvzwieten
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Happy automating! (with Ansible Tower!)
-Page /
+> _**Note:**_
+>
+> If you plan to also do the other exercise, it is mandatory that you do this.
