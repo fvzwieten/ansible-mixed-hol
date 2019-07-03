@@ -1,4 +1,4 @@
-# Exercise 2: Windows Domain with Linux Client
+# Exercise 2: Windows Domain with Linux Member(s)
 ## Table of Contents
 - [Introduction](#introduction)
 - [Goal](#goal)
@@ -59,138 +59,46 @@ Here is (again) an example of what kind of workflow you are tasked to build:
 ![example workflow](https://github.com/fvzwieten/ansible-mixed-hol/blob/master/workflow.png "Example Workflow")
 Remember, this is just an example!
 
-
-Introduction
-
-
-Welcome to the Ansible for Linux & Windows Hands-on Lab!
-
-
-The url of the Ansible Tower cluster where you work on is: https://tower-{guid}.rhpds.opentlc.com
-
-
-Where {guid} is the 4 character code you received at the start of the LAB.
-
-
-You have the following accounts available on your Tower machine:
-
-
-windowsadmin
-This persona maintains all windows playbooks. He has admin rights on the Tower project for Windows playbooks. If you want to use his playbooks, you must ask him nicely.
-
-
-linuxadmin
-This persona maintains all linux playbooks. He has admin rights on the Tower project for Linux playbooks. If you want to use his playbooks, you must ask him even more nicely.
-
-
-webadmin
-This persona’s job is to build and maintain web stacks. He needs the playbooks from the other persona’s to do her or his job.
-
-
-admin
-The tower administrator maintains the Azure playbooks. He is a nice guy by default. He already gave permission to use them, including the credentials you need to be able to use them. Neat!
-
-
-user
-This is the persona who is able to run but not maintain workflows.
-
-
-These accounts are all member of the Ansible Tower Organization “ACME Corporation”
-
-
-All these accounts have password: r3dh4t1! (that includes the !)
-
-
-
-
-The url of the gitlab where your repositories live is: https://control-{guid}.rhpds.opentlc.com
-
-
-Where {guid} is the 4 character code you received at the start of the LAB.
-Username: git
-Password: r3dh4t1!
-________________
-
-
-
-
-Notes:  a trusted certificate is not installed, so you need to accept an exception for this in your browser.
-This lab uses Azure. When creating resources in Azure there are restrictions on VM names, usernames and passwords. Read
-
-
-https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#are-there-any-computer-name-requirements
-     
-before you start if you do not know these restrictions!
-
-
-
-
-________________
-
-
-
-
-Windows Domain with Linux member(s)
-
-
-Here is (again) an example of what kind of workflow you need to build:
-
-
-  
-
-
-
 You are tasked to build this workflow as the user “linuxadmin” with the added ability to have user “user” to execute it as well.  
 
-
 Summary of tasks:
-
-
 * You create one Windows and one Linux VM in Azure
 * You sync the inventory to import the newly created VM’s in Azure into the inventory
 * You create a new AD domain on the Windows machine
 * You create a Domain Admin user and a Normal user
 * You join the Linux machine to the AD domain
-* You log into the Linux machine with either SSH or Cockpit using the Windows accounts in the Active Directory.
+* You log into the Linux machine with either SSH or Web Console using the Windows accounts in the Active Directory.
 
+> **_Note:_**
+>
+>If you use Web Console, a trusted certificate is not installed, so you need to accept an exception for this in your browser.
 
-Note: If you use cockpit, a trusted certificate is not installed, so you need to accept an exception for this in your browser.
-________________
+[(top)](#table-of-contents)
 
+# Permissions
 
+User _linuxadmin_ currently only has access to it's own Linux project and the Azure project & job templates as shared by the Ansible Tower Global Admin. So, you need to grant access to the Windows project to be able to use it's playbooks:
 
+* Log into Ansible Tower with the _windowsadmin_ account
+* Go to _Projects_ in the left main menu. You see the projects this account has access to.
+* Select _Windows_
+* On the projects details page, select _PERMISSIONS_ and click the green + button.
+* Select _linuxadmin_
+* In the lower menu, choose _Use_ as the role.
+* Click Save  
+* Log out of Tower. That is the _switch_ icon in the upper right corner of the Tower UI.
 
-1. Give Permissions
+> **_Note:_**
+>
+> If you want to assign roles to _teams_ (e.g. Web Team), you need to be a Tower admin.
 
+[(top)](#table-of-contents)
 
-linuxadmin currently has only access to the Linux Job Templates and the Azure job templates as shared by the Ansible Tower admin. So, you need to grant access to the Windows projects
-
-
-* Log into Ansible Tower with the windowsadmin account
-* Go to “Projects” in the left main menu. You see the projects this account has access to.
-* Select “Windows”
-* In the projects menu, select PERMISSIONS and click the   +  button.
-* Select “ linuxadmin”
-* In the lower menu, choose “Use” as the role.
-* Click  Save  
-* Log out of Tower. That is the “switch” icon in the upper right corner of the Tower UI.
-
-
-notes: 
-* If you want to assign roles to teams (e.g. Web Team), you need to be Tower admin.
-
-
-________________
-
-
-
-
-1. Deploy a test VM
-
+# Test deploy a VM
 
 Nothing stops us from already deploying a VM in Azure. You can use that VM in the later workflow. So, let’s execute a playbook that will do just that and see how that works:
-* Log into Ansible Tower as “linuxadmin”
-* Go to “Templates” in the left main menu. Here, you see a list of job templates that begin with azure_ and are shared with you and you are allowed to execute.
+* Log into Ansible Tower as _linuxadmin_ (if you haven't already)
+* Go to _Templates_ in the left main menu. Here, you see a list of job templates that begin with azure_ and are shared with you and you are allowed to execute.
 * Next to each template you see a “run” icon in the form of a flying rocket. Click on the one next to the job template called “azure_create”_vm”.
 * You will be presented with a survey. A survey is a simple form to ask for input parameters for this run. Fill each field as follow:
    * Name: <whatever you like>
