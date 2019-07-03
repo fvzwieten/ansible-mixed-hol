@@ -190,6 +190,7 @@ Repeat this exercise for each building block in your workflow. If might seem lik
 The used playbooks need a survey defined on the job template to be able to work. This way, the template will provide the playbook with user defined var’s. You create a survey by going to the job template details and click on _ADD SURVEY_. Here you can enter the specification of each field in the survey. When you’re done, click _SAVE_. Here is the specification for the survey of each job template that you need to make:
 
 Survey for job template _**windows_create_dc**_
+
 | PROMPT   | DESCRIPTION | ANSWER VARIABLE NAME | ANSWER TYPE | MIN - MAX LENGTH | REQUIRED |
 | ---------|-------------|----------------------|:-----------:|:----------------:|:--------:|
 | Name     | Domain Name | domain_name          | Text        | 4 - 30           | Yes      |
@@ -197,6 +198,7 @@ Survey for job template _**windows_create_dc**_
 	
 
 Survey for job template _**windows_create_user**_
+
 | PROMPT      | DESCRIPTION | ANSWER VARIABLE NAME | ANSWER TYPE | MIN - MAX LENGTH | REQUIRED |
 | ------------|-------------|----------------------|:-----------:|:----------------:|:--------:|
 | Domain Name | Domain Name | domain               | Text        | 4 - 30           | No       |
@@ -206,6 +208,7 @@ Survey for job template _**windows_create_user**_
 
 
 Survey for job template _**linux_join_domain**_
+
 | PROMPT      | DESCRIPTION    | ANSWER VARIABLE NAME | ANSWER TYPE | MIN - MAX LENGTH | REQUIRED |
 | ------------|----------------|----------------------|:-----------:|:----------------:|:--------:|
 | Domain      | Domain Name    | domain               | Text        | 4 - 30           | No       |
