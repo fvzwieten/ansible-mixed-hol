@@ -164,7 +164,7 @@ As you know by now you need an inventory of machines you want your playbooks to 
 
 [(top)](#table-of-contents)
 
-## Create-Job-Templates
+## Create Job Templates
 
 You now add job templates for each node in the above workflow:
 * Log into Ansible Tower as _linuxadmin_ (if you haven’t already)
@@ -220,7 +220,7 @@ Survey for job template _**linux_join_domain**_
 
 ---
 > _**Note:**_
-> * Did you notice some fields in the survey specification are optional (REQ: No)? So what would happen if you keep them empty in the workflow? Here, a nice feature is demonstrated: The ability to pass data from one node in a workflow to nodes that follow it. How that works? Go look at the underlying playbooks in gitlab and search for the method “set_stats”. That should explain it. You can test it by actually leave all fields that are optional empty, which we will do below.
+> Did you notice some fields in the survey specification are optional (REQ: No)? So what would happen if you keep them empty in the workflow? Here, a nice feature is demonstrated: The ability to pass data from one node in a workflow to nodes that follow it. How that works? Go look at the underlying playbooks in gitlab and search for the method “set_stats”. That should explain it. You can test it by actually leave all fields that are optional empty, which we will do below.
 
 [(top)](#table-of-contents)
 
