@@ -37,7 +37,7 @@ This is the persona who is able to run but not maintain workflows.
 These accounts are all member of the Ansible Tower Organization _“ACME Corporation”_
 
 
-The url of the **git server** where your repositories live is: https://control-{guid}.rhpds.opentlc.com
+The url of the **git server** where your repositories live is: https://control-{guid}.rhpds.opentlc.com/gitea
 Where {guid} is the 4 character code you received at the start of the LAB.
 
 You have the following accounts available on your Git server:
