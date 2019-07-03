@@ -189,72 +189,31 @@ Repeat this exercise for each building block in your workflow. If might seem lik
 
 The used playbooks need a survey defined on the job template to be able to work. This way, the template will provide the playbook with user defined var’s. You create a survey by going to the job template details and click on _ADD SURVEY_. Here you can enter the specification of each field in the survey. When you’re done, click _SAVE_. Here is the specification for the survey of each job template that you need to make:
 
-Survey for job template _windows_create_dc_
-
+Survey for job template _**windows_create_dc**_
 | PROMPT   | DESCRIPTION | ANSWER VARIABLE NAME | ANSWER TYPE | MIN - MAX LENGTH | REQUIRED |
 | ---------|-------------|----------------------|:-----------:|:----------------:|:--------:|
 | Name     | Domain Name | domain_name          | Text        | 4 - 30           | Yes      |
 | Password | Password    | password             | Password    | 8 - 20           | Yes      |
 	
 
-Survey for job template _windows_create_user_
-
+Survey for job template _**windows_create_user**_
 | PROMPT      | DESCRIPTION | ANSWER VARIABLE NAME | ANSWER TYPE | MIN - MAX LENGTH | REQUIRED |
 | ------------|-------------|----------------------|:-----------:|:----------------:|:--------:|
 | Domain Name | Domain Name | domain               | Text        | 4 - 30           | No       |
 | Username    | Username    | username             | Text        | 4 - 30           | Yes      |
 | Password    | Password    | password             | Password    | 8 - 20           | Yes      |
-| Group       | Group Name  | group                | Multiple Choice (Single Select) |: Domain Admins Users | Yes |
+| Group       | Group Name  | group                | Multiple Choice (Single Select) | Domain Admins Users | Yes |
 
 
-Survey for job template linux_join_domain
+Survey for job template _**linux_join_domain**_
+| PROMPT      | DESCRIPTION    | ANSWER VARIABLE NAME | ANSWER TYPE | MIN - MAX LENGTH | REQUIRED |
+| ------------|----------------|----------------------|:-----------:|:----------------:|:--------:|
+| Domain      | Domain Name    | domain               | Text        | 4 - 30           | No       |
+| Name        | Admin username | ad_user              | Text        | 4 - 30           | No       |
+| Password    | Admin Password | ad_password          | Password    | 8 - 20           | No       |	
 
-
-PROMPT
-	DESCRIPTION
-	ANSWER
-VARIABLE
-NAME
-	ANSWER
-TYPE
-	MIN.
-LEN
-	MAX
-LEN
-	REQ
-	Domain
-	Domain Name
-	domain
-	text
-	4
-	30
-	No
-	Name
-	Admin username
-	ad_user
-	Text
-	4
-	30
-	No
-	Password
-	Admin Password
-	ad_password
-	Password
-	8
-	20
-	No
-	
-
-
-
-Notes:
-   * Did you notice some fields in the survey specification are optional (REQ: No)? So what would happen if you keep them empty in the workflow? Here, a nice feature is demonstrated: The ability to pass data from one node in a workflow to nodes that follow it. How that works? Go look at the underlying playbooks in gitlab and search for the method “set_stats”. That should explain it. You can test it by actually leave all fields that are optional empty, which we will do below.
-________________
-
-
-
-
-
+> _**Note:**_
+> * Did you notice some fields in the survey specification are optional (REQ: No)? So what would happen if you keep them empty in the workflow? Here, a nice feature is demonstrated: The ability to pass data from one node in a workflow to nodes that follow it. How that works? Go look at the underlying playbooks in gitlab and search for the method “set_stats”. That should explain it. You can test it by actually leave all fields that are optional empty, which we will do below.
 
    1. Create workflow template
 
