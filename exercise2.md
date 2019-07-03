@@ -1,4 +1,66 @@
-﻿Introduction
+# Exercise 2: Windows Domain with Linux Client
+## Table of Contents
+- [Introduction](#introduction)
+- [Goal](#goal)
+- [Permissions](#permissions)
+- [Test Deploy a VM](#test-deploy-a-vm)
+- [Create Machine Credential](#Create-Machine-Credential)
+- [Create an Inventory](#Create-an-Inventory)
+- [Create Job Templates](#Create-Job-Templates)
+- [Finalize workflow template](#Finalize-workflow-template)
+- [Execute the workflow](#Execute-the-workflow)
+- [Cleanup](#Cleanup)
+
+## Introduction
+Welcome to exercise 1 of the Ansible for Linux & Windows Hands-on Lab!
+
+The url of the **Ansible Tower** cluster where you work on is: https://tower-{guid}.rhpds.opentlc.com
+Where {guid} is the 4 character code you received at the start of the LAB.
+
+You have the following accounts available on your Tower server:
+
+- **windowsadmin:**
+This persona maintains all windows playbooks. He has admin rights on the Tower project for Windows playbooks. If you want to use his playbooks, you must ask him nicely.
+
+- **linuxadmin:**
+This persona maintains all linux playbooks. He has admin rights on the Tower project for Linux playbooks. If you want to use his playbooks, you must ask him even more nicely.
+
+- **webadmin:**
+This persona’s job is to build and maintain web stacks. He needs the playbooks from the other persona’s to do her or his job.
+
+- **admin:**
+The tower administrator maintains the Azure playbooks. He is a nice guy by default. He already gave permission to use them, including the credentials you need to be able to use them. Neat!
+
+- **user:**
+This is the persona who is able to run but not maintain workflows.
+
+These accounts are all member of the Ansible Tower Organization _“ACME Corporation”_
+
+
+The url of the **gitlab** where your repositories live is: https://control-{guid}.rhpds.opentlc.com
+Where {guid} is the 4 character code you received at the start of the LAB.
+
+You have the following accounts available on your Git server:
+
+- **git:**
+This account gives you write access to all repositories, so if you feel like customizing the playbook, be my guest ;-)
+
+All these accounts have password: _r3dh4t1!_ (that includes the !)
+
+> **_Note:_**
+>
+> A trusted certificate is not installed, so you need to accept an exception for this in your browser.
+> This lab uses Azure. When creating resources in Azure there are restrictions on VM names, usernames and passwords. Read [here](https://docs.microsoft.com/en-us/azure/virtual-machines/windows/faq#are-there-any-computer-name-requirements) before you start if you do not know these restrictions!
+
+[(top)](#table-of-contents)
+
+## Goal
+Here is (again) an example of what kind of workflow you are tasked to build:
+![example workflow](https://github.com/fvzwieten/ansible-mixed-hol/blob/master/workflow.png "Example Workflow")
+Remember, this is just an example!
+
+
+Introduction
 
 
 Welcome to the Ansible for Linux & Windows Hands-on Lab!
