@@ -218,7 +218,6 @@ Survey for job template _**linux_join_domain**_
 | Name        | Admin username | ad_user              | Text        | 4 - 30           | No       |
 | Password    | Admin Password | ad_password          | Password    | 8 - 20           | No       |	
 
----
 > _**Note:**_
 > Did you notice some fields in the survey specification are optional (REQ: No)? So what would happen if you keep them empty in the workflow? Here, a nice feature is demonstrated: The ability to pass data from one node in a workflow to nodes that follow it. How that works? Go look at the underlying playbooks in gitlab and search for the method “set_stats”. That should explain it. You can test it by actually leave all fields that are optional empty, which we will do below.
 
