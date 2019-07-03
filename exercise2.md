@@ -185,9 +185,12 @@ Repeat this exercise for each building block in your workflow. If might seem lik
 >
 >If multiple nodes in the above workflow execute the same job template, as for example with windows_create_user, you only need to denine the job template once. 
 
+[(top)](#table-of-contents)
+
 ## Build Surveys
 
 The used playbooks need a survey defined on the job template to be able to work. This way, the template will provide the playbook with user defined var’s. You create a survey by going to the job template details and click on _ADD SURVEY_. Here you can enter the specification of each field in the survey. When you’re done, click _SAVE_. Here is the specification for the survey of each job template that you need to make:
+
 ---
 Survey for job template _**windows_create_dc**_
 
@@ -219,14 +222,14 @@ Survey for job template _**linux_join_domain**_
 > _**Note:**_
 > * Did you notice some fields in the survey specification are optional (REQ: No)? So what would happen if you keep them empty in the workflow? Here, a nice feature is demonstrated: The ability to pass data from one node in a workflow to nodes that follow it. How that works? Go look at the underlying playbooks in gitlab and search for the method “set_stats”. That should explain it. You can test it by actually leave all fields that are optional empty, which we will do below.
 
-   1. Create workflow template
+[(top)](#table-of-contents)
 
+## Create workflow template
 
-Now we finally have all the needed components to build a workflow. Phew! A workflow is a set of job templates (and thus playbooks) that are linked together in a certain specific way such that multiple job templates are executed in a predictable order. Each job template in a workflow is called a “node”.
+Now we finally have all the needed components to build a workflow. Phew! A workflow is a set of job templates (and thus playbooks) that are linked together in a certain specific way such that multiple job templates are executed in a predictable order. Each job template in a workflow is called a _node_.
 
-
-   * Log into Ansible Tower as “linuxadmin” (if you haven’t already).
-   * Go to “Templates” in the left main menu and click the  +  button and choose “Workflow Template”
+   * Log into Ansible Tower as _linuxadmin_ (if you haven’t already).
+   * Go to “Templates” in the left main menu and click the green + button and choose _Workflow Template_
    * NAME: name the workflow “create_windows_domain_with_linux_client” (just to show you can create really long template names ;-)
    * DESCRIPTION: is optional and you can choose anything
    * ORGANIZATION: Choose ACME Division 
