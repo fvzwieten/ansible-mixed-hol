@@ -12,7 +12,7 @@
 - [Cleanup](#Cleanup)
 
 ## Introduction
-Welcome to exercise 1 of the Ansible for Linux & Windows Hands-on Lab!
+Welcome to exercise **2** of the Ansible for Linux & Windows Hands-on Lab!
 
 The url of the **Ansible Tower** cluster where you work on is: https://tower-{guid}.rhpds.opentlc.com
 Where {guid} is the 4 character code you received at the start of the LAB.
@@ -164,30 +164,26 @@ As you know by now you need an inventory of machines you want your playbooks to 
 
 [(top)](#table-of-contents)
 
+## Create-Job-Templates
 
-
-
-   1. Create Job Templates
-You now add job templates for each node in the above workflow.
-   * Log into Ansible Tower as linuxadmin(if you haven’t already)
-   * Go to “Templates” in the left main menu and click the  +  button and choose “Job Template”
-   * NAME: choose the name of the playbook and make it the same as the node in the above workflow, for example “windows_create_user”
-   * DESCRIPTION: is optional and you can choose anything
-   * INVENTORY: The Inventory you just created
-   * PROJECT: Choose Windows or Linux, depending on the workflow node you are working on.
-   * PLAYBOOK: Choose the correct playbook from the list.
-   * CREDENTIAL: Choose the Machine Credential you just created.
-   * ONLY for the job template windows_create_user, enable the option “Enable Concurrent Jobs”. What this does is enabling the possibility to have multiple jobs running from this template concurrently. As you can see from the workflow diagram, we want this. The shared job template “azure_create_vm” has the same capability.
-   * Click SAVE.
-
+You now add job templates for each node in the above workflow:
+* Log into Ansible Tower as _linuxadmin_ (if you haven’t already)
+* Go to _Templates_ in the left main menu, click the green + button and choose _Job Template_
+* Fill out the details like this:
+    * _NAME_: choose the name of the playbook and make it the same as the node in the above workflow, for example _windows_create_user_
+   * _DESCRIPTION:_ is optional and you can choose anything
+   * _INVENTORY:_ The Inventory you just created
+   * _PROJECT:_ Choose Windows or Linux, depending on the workflow node you are working on.
+   * _PLAYBOOK:_ Choose the correct playbook from the list.
+   * _CREDENTIAL:_ Choose the Machine Credential you just created.
+   * _ONLY:_ for the job template _windows_create_user_, enable the option _Enable Concurrent Jobs_. What this does is enabling the possibility to have multiple jobs running from this template concurrently. As you can see from the workflow diagram, we want this. The shared job template _azure_create_vm_ has the same capability.
+   * Click _SAVE_.
 
 Repeat this exercise for each building block in your workflow. If might seem like a lot of work, but once you’ve done one or two, it becomes second nature and you can make them quite fast.
 
-
-Note: If multiple nodes in the above workflow execute the same job template, as for example with windows_create_user, you only need to denine the job template once. 
-
-
-________________
+>_**Note:**_
+>
+>If multiple nodes in the above workflow execute the same job template, as for example with windows_create_user, you only need to denine the job template once. 
 
 
 
