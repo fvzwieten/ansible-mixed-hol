@@ -308,3 +308,32 @@ After you have recovered from the amazement of your result it is time to clean u
 > _**Note:**_
 >
 > If you plan to also do the other exercise, it is mandatory that you do this.
+
+[(top)](#table-of-contents)
+
+## Thank you!
+
+We hope you got a good sense of the basics around Ansible Tower. We do invite you to continue learning Ansible and Ansible Tower. Here are some great resources you can use to further develop you Ansible skills:
+
+Quick Start Video:
+https://www.ansible.com/quick-start-video
+
+Ansible Documentation:
+https://docs.ansible.com/
+
+Ansible Galaxy:
+https://galaxy.ansible.com/
+
+List of all modules:
+https://docs.ansible.com/ansible/latest/modules/modules_by_category.html
+
+Get a Ansible Tower Trial license:
+https://www.ansible.com/products/tower/trial
+
+Manage Windows like Linux with Ansible:
+https://www.youtube.com/watch?v=FEdXUv02Dbg
+
+All playbooks are permanently available on:
+https://github.com/fvzwieten
+
+## Happy automating! (with Ansible Tower!)
