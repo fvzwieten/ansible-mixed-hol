@@ -75,7 +75,7 @@ Summary of tasks:
 
 [(top)](#table-of-contents)
 
-# Permissions
+## Permissions
 
 User _linuxadmin_ currently only has access to it's own Linux project and the Azure project & job templates as shared by the Ansible Tower Global Admin. So, you need to grant access to the Windows project to be able to use it's playbooks:
 
@@ -94,77 +94,75 @@ User _linuxadmin_ currently only has access to it's own Linux project and the Az
 
 [(top)](#table-of-contents)
 
-# Test deploy a VM
+## Test Deploy a VM
 
 Nothing stops us from already deploying a VM in Azure. You can use that VM in the later workflow. So, let’s execute a playbook that will do just that and see how that works:
-* Log into Ansible Tower as _linuxadmin_ (if you haven't already)
-* Go to _Templates_ in the left main menu. Here, you see a list of job templates that begin with azure_ and are shared with you and you are allowed to execute.
-* Next to each template you see a “run” icon in the form of a flying rocket. Click on the one next to the job template called “azure_create”_vm”.
-* You will be presented with a survey. A survey is a simple form to ask for input parameters for this run. Fill each field as follow:
-   * Name: <whatever you like>
-   * OS Type: Linux
-   * Username: whatever you like
-   * Password: make it strong, Luke! (and remember it because you need it later). It is already prefilled with the same passsword you used to log in, but you can change it of course.
-   * Role: Webserver
-   * Now click NEXT.
-* You now get to (p)review what you entered. You also see the var names that will be populated with these values. Press LAUNCH when all is right.
-* You now see the JOBS window appear with logging in the right pane as the job executes. The left pane shows all metadata of this job.
+1. Log into Ansible Tower as _linuxadmin_
+2. Check in _Projects_ if you now also see the _Windows_ project based on the permissions you assigned earlier.
+3. Go to _Templates_ in the left main menu. Here, you see a list of job templates that begin with azure_ and are shared with you and you are allowed to execute.
+4. Next to each template you see a _run_ icon in the form of a flying rocket. Click on the one next to the job template called _azure_create_vm_.
+5. You will be presented with a _survey_. A survey is a simple form to ask for input parameters for this run. Each field is self explanatory. The password field is already prefilled with the password you also use to log into tower and git. You are free to change it, but then please remember it for later.
+6. Fill all fields and press _NEXT_. Choose values that you can later use in your workflow, so use a role you need. Remember all input you use here. You need them later! Also make sure you enter valid values. Now click _NEXT_.
+7. You get to (p)review what you entered. You also see the var names that will be populated with these values in the playbooks. Press _LAUNCH_ when all is good.
+8. You now see the _JOBS_ window appear with logging in the right pane as the job executes. The left pane shows all metadata of the job.
 
+> **_Notes:_**
+>
+>* You can safely ignore the purple warning message at the beginning of the logging.
+>* The job will take some time to execute. A Windows VM deployment will typically take longer than a Linux VM (on Azure). You can continue with the next exercise or take a look at the playbooks in your git server while you wait and go back to this job at any time by going to the _My View_ main menu item and look up this job’s details. As you can see each Job has been given a unique number. Select _My Jobs_ to only see your own jobs.
+>* When the job completes it will report in the logging the public IP address of the VM. You can log into this VM with either RDP or SSH (depending on the OS you’ve chosen) and the username/password you entered in the survey.
+>* If, for some reason you want to remove this VM, you can execute the job template called _azure_delete_vm_. It will ask for the VM Name and will delete that VM from Azure.
+>* Have a look at the playbooks in the _ansible4azure_ repository in your git server. They showcase how you can use Ansible with Azure.
+>* If the browser window is too small, the interface will automatically switch to mobile view. Left and Right become Up and Down.
+>* You have write access to the git repositories. Feel free to customize the playbooks to your own liking. Remember though that this server will be deleted after the workshop..
 
-Notes:
-* You can safely ignore the purple warning message at the beginning of the logging.
-* The job will take some time to execute. A Windows VM deployment will typically take longer than a Linux VM (on Azure). You can continue with the next exercise or take a look at the playbooks in your git server while you wait and go back to this job at any time by going to the “My View” main menu item and look up this job’s details. As you can see each Job has been given a unique number. Select “My Jobs” to only see your own jobs.
-* When the job completes it will report in the logging the public IP address of the VM. You can log into this VM with either RDP or SSH (depending on the OS you’ve chosen) and the username /password you entered in the survey.
-* If, for some reason you want to remove this VM, you can execute the job template called azure_delete_vm. It will ask for the VM Name and will delete that VM from Azure.
-* Have a look at the playbooks in the ansible4azure repository in your git server. They showcase how you can use Ansible with Azure.
-* If the browser window is too small, the interface will automatically switch to mobile view. Left and Right become Up and Down.
-* You have write access to the git repositories. Feel free to customize the playbooks to your own liking. Remember though that this server will be deleted after the workshop..
+[(top)](#table-of-contents)
 
+## Create Machine Credential
 
-1. Create a Machine Credential
+When you deploy machines, you needed to specify credentials to be able to log in to it. You also need credentials to be able to run Ansible playbooks _in_ the VM’s OS. Although the Windows admin and/or Linux admin could share their credentials to do that, that would mean you can log into their other machines as well. Better to create your own machine credential then! Here we go:
+1. Log into Ansible Tower as _linuxadmin_ (if you haven’t already)
+2. Go to _Credentials_ in the left main menu. You see some credentials already exist in your account:
+   * There is an _Azure_ credential, given to you to be able to authenticate against Azure to be able to manage Azure resources, like VM’s
+   * There is an SCM credential called "GiTea" to log into GiTea to sync the repositories.
+   * There are also two _Vault_ credentials. What are those? A vault in Ansible is a file that has been encrypted using the ansible-vault tool. You can encrypt any file with this. In this Lab we encrypted 2 text files which hold credentials. One for accessing the database for write, the other one for configuring the access to the haproxy stats webpage. The encrypted files are protected with a password. We defined vault credentials in Tower with these passwords to be able to decrypt and use the vaulted files during playbook execution.
+3. Click the green _+_ button.
+4. Give your credential a name (for example _MyCred_), optionally a description and select your organization _ACME Corporation_.
+5. Select _Machine_ as the credential type. This will present you with some additional fields to fill in. As you can see there are lots of different types of credentials which show you the power of Ansible Tower in its ability to handle all these types.
+6. For username and password use the _EXACT_ same username and password you used in the previous exercise. You still remember them, right...
+7. If you plan to deploy Linux based building blocks in your workflow then specify _sudo_ for _Privilege Escalation Method_, _root_ for _Privilege Escalation Username_ and the same password you used earlier for _Privilege Escalation Password_.
+8. Click _SAVE_
 
+> **_Notes:_**
+>
+>* Try to look up the password you just entered. As you will notice you can’t anymore. You can only replace it. Nice and safely stored :-)
+>* If you want to check whether you typed the password correctly, you can do that only before you click SAVE.
+>* We use the same _Machine_ credential for both Linux and Windows machines. This works, because on Windows, the account has admin rights and hence do not nmeed priviledge escalation.
 
-When you deploy machines, you need to specify a credential to be able to log in to it. You also need credentials to be able to run Ansible playbooks _in_ the VM’s OS. Although the Windows admin and/or Linux admin could share their credentials to do that, that would mean you can log into their machines as well. Better to create your own machine credential then. Here we go:
-* Log into Ansible Tower as linuxadmin  (if you haven’t already)
-* Go to “Credentials” in the left main menu. You see some credentials already exist in your account:
-   * You see one Azure credential, given to you to be able to authenticate against Azure to be able to deploy VM’s
-   * There is an SCM credential as well to log into GiTea to get to the playbooks.
-   * There are also 2 “Vault” credentials. What are those? A vault in Ansible is a file that has been encrypted using the ansible-vault tool. You can encrypt any file with this. In this Lab we encrypted 2 files which hold credentials. One for accessing the database for write, the other one for configuring the access to the haproxy stats webpage. The encrypted files are protected with a password. You define a vault credential in Tower with this password to by able to decrypt and use the vaulted files during playbook execution. These credentials are not used by this exercise but by exercise 1.
-* Click the  +  button.
-* Give your credential a name (for example: MyCred) and optionally a description and select your organization “ACME Corporation”.
-* Select “Machine Credential” as the credential type. This will present you with some additional fields to fill in. As you can see there are lots of different types of credentials which show you the power of Ansible Tower in its ability to handle all these types.
-* For username and password use the EXACT same username and password you used in the previous exercise.
-* Specify “sudo” for “Privilege Escalation Method”, “root” for “Privilege Escalation username” and the EXACT same password you used earlier for “Privilege Escalation Password”.
-* Click SAVE
+[(top)](#table-of-contents)
 
+## Create an Inventory
 
-        Notes:
-* Try to look up the password you just entered. As you will notice you can’t anymore. You can only replace it. Nice and safely stored :-)
-* If you want to check whether you typed the password correctly, you can do that only before you click SAVE.
-________________
+As you know by now you need an inventory of machines you want your playbooks to run against. In this part we are going to create a dynamic inventory. This is an inventory that will populate itself by syncing from an external source, in this case Azure. This means that as you create VM’s in Azure the inventory will be populated with the VM’s that you have created once you sync it. You need credentials for Azure to be able to do this, but these have been shared with you by the Ansible Tower Admin to use, remember?
 
+1. Log into Ansible Tower as _linuxadmin_ (if you haven’t already)
+2. Go to _Inventories_ in the left main menu, click the green _+_ button and choose _Inventory_.
+3. Give your inventory a _NAME_ (ie _MyInventory_), optionally a _DESCRIPTION_, _ACME Corporation_ for _ORGANIZATION_ and click _SAVE_
+4. Choose _SOURCES_ in the inventory menu and click the green _+_ button.
+5. Give the source a _NAME_(suggestion: _Azure_) and optionally a _DESCRIPTION_. Choose _Microsoft Azure Resource Manager_ as the _SOURCE_ (note that the _CREDENTIAL_ is auto populated to the _Azure CREDENTIAL_, because that is the only one with that type you have access to).
+6. Select _Overwrite_ in the _UPDATE OPTIONS_ (click the _?_ next to it to get an explanation on this option)
+7. **Important**: In _SOURCE VARIABLES_, just below the “---”, so on line 2, type in the following:
+    ```
+    resource_groups: ansible_workshop_{guid}
+    ```    
+    This little trick will filter the hosts in Azure to those that are in your Azure resource group.
+8. Click _SAVE_
+9. Click the _SYNC ALL_ button. It will now start syncing your current VM’s in Azure into your inventory.
+10. When the synchronization is done (the cloud icon next to the source stops blinking and is green), click the _HOSTS_ submenu item within the inventory. If all is well you see the VM you deployed in the previous step. If you see none or more than one, **that is not good! Stop right here! Talk to the instructor!**
+11. When you select the host you see the DETAILS pane where you see vars that are generated from the Azure SOURCE and that you can use in your playbooks.
+12. In the _GROUPS_ tab you also see that the host is automatically added to various groups that represent different types of Azure metadata. The resource_group is one, The OS is another, Also, the role you specified during the creation you now see come back here as well. We will use these groups to run the different playbooks against.
 
-   1. Create an Inventory
-
-
-As you know by now you need an inventory of machines you want your playbooks to run on. In this exercise we are going to create a dynamic inventory. This is an inventory that will populate itself from an external source, in this case Azure. This means that as you create VM’s in Azure the inventory will be populated with the VM’s that you have created once you sync it. You need credentials for Azure to be able to do this, but these have been shared with you by the Tower Admin to use, remember?
-
-
-   * Log into Ansible Tower as “linuxadmin” (if you haven’t already)
-   * Go to “Inventories” in the left main menu, click the  +  button and choose “Inventory”.
-   * Give your inventory a NAME (ie MyInventory), optionally a DESCRIPTION, “ACME Corporation for ORGANIZATION and click SAVE
-   * Choose SOURCES in the inventory menu and click the  +  button.
-   * Give the source a NAME(suggestion: Azure) and optionally a DESCRIPTION. Choose “Microsoft Azure Resource Manager” as the SOURCE (note that the CREDENTIAL is auto populated to the Azure CREDENTIAL, because that is the only one with that type you have access to).
-   * Select “Overwrite” in the UPDATE OPTIONS (click the ? next to it to get an explanation on this option)
-   * In SOURCE VARIABLES, just below the “---”, so on line 2, type in the following:
-   * resource_groups: ansible_workshop_{guid}
-This little trick will filter the hosts in Azure to those that are in your Azure resource group.
-   * Click SAVE
-   * Click the SYNC ALL button. It will now start syncing your current VM’s in Azure into your inventory.
-   * When the synchronization is done (the cloud icon next to the source stops blinking and is green), click the HOSTS submenu item within the inventory. If all is well you see the VM you deployed in the previous step. If you see none or more than one, that is not good! Stop right here! Talk to the instructor!
-   * When you select the host you see the DETAILS pane where you see vars that are generated from the Azure SOURCE and that you can use in your playbooks.
-   * In the GROUPS tab you also see that the host is automatically added to various groups that represent different types of Azure metadata. The resource_group is one, The OS is another, Also, the role you specified during the creation you now see come back here as well. We will use these groups to run the different playbooks against.
-________________
+[(top)](#table-of-contents)
 
 
 
