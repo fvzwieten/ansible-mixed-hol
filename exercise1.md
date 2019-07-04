@@ -56,7 +56,7 @@ All these accounts have password: _r3dh4t1!_ (that includes the !)
 
 ## Goal
 Here is (again) an example of what kind of workflow you are tasked to build:
-![example workflow](https://github.com/fvzwieten/ansible-mixed-hol/blob/master/exercise1.png "Example Workflow")
+![example workflow](https://github.com/fvzwieten/media/blob/master/exercise1.png "Example Workflow")
 Remember, this is just an example!
 
 * If you choose to use Linux for your web server, you must use the playbooks linux_deploy_apache and linux_deploy_website as your building blocks of choice
