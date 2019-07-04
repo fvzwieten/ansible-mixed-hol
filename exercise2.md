@@ -57,7 +57,7 @@ All these accounts have password: _r3dh4t1!_ (that includes the !)
 
 ## Goal
 Here is (again) an example of what kind of workflow you are tasked to build:
-![example workflow](https://github.com/fvzwieten/ansible-mixed-hol/blob/master/exercise2.png "Example Workflow")
+![example workflow](https://github.com/fvzwieten/media/blob/master/exercise2.png "Example Workflow")
 Remember, this is just an example!
 
 You are tasked to build this workflow as the user “linuxadmin” with the added ability to have user “user” to execute it as well.  
